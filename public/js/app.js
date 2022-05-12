@@ -573,9 +573,9 @@ $("#open-project").click(async () => {
 
 $("#open-help").click(() => {
     if (!isElectron) {
-        window.open("https://microblock.app/", "_blank");
+        window.open("https://tektech.org/", "_blank");
     } else {
-        shell.openExternal("https://microblock.app/");
+        shell.openExternal("https://tektech.org/");
     }
 });
 

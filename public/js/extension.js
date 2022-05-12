@@ -1,4 +1,4 @@
-let extensionIndexURL = "https://api.github.com/repos/microBlock-IDE/microBlock-extension-index/contents/main.json";
+let extensionIndexURL = "https://api.github.com/repos/tektecher/TekTech-IDE-extension-index/contents/main.json";
 let extensionIndex = null;
 
 let updateExtensionIndex = async () => {

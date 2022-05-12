@@ -284,7 +284,7 @@
      input.accept = "image/png, image/jpeg";
      input.addEventListener("change", function(e) {
        if (e.target.files.length > 0) {
-         this.fileChoose_ = e.target.files[0].path;
+         this.fileChoose_ = e.target.files[0];
          for (let e of this.editor_.querySelectorAll(".control > div")) {
            e.style.display = "block";
          }
@@ -391,11 +391,12 @@
      this.updateValue_();
    }.bind(this);
    if (isElectron) {
-     const contents = nodeFS.readFileSync(this.fileChoose_, { encoding: 'base64' });
+     const contents = nodeFS.readFileSync(this.fileChoose_.path, { encoding: 'base64' });
      console.log(contents);
      tmpImage.src = "data:image/png;base64," + contents;
    } else {
-     tmpImage.src = this.fileChoose_;
+     // tektech team solved issu of image review in display show image in web version 
+     tmpImage.src = URL.createObjectURL(this.fileChoose_);
    }
  };
  

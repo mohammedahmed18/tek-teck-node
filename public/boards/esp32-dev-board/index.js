@@ -38,11 +38,61 @@ addBoard({
         "blocks/generators_initialize.js",
 
     ],
-    simulator: {
-        index: "simulator/index.html",
-        script: [ ]
-    },
     modules: [],
+    examples: [
+        "Basic",
+        {
+            name: "Blink",
+            files: "../esp32-dev-board/examples/blink",
+        },
+        {
+            name: "Digital Read (IN1)",
+            files: "../esp32-dev-board/examples/digital-read",
+        },
+        {
+            name: "Analog Read (IN1)",
+            files: "../esp32-dev-board/examples/analog-read",
+        },
+        "Screen ",
+        {
+            name: "Text scroll",
+            files: "../esp32-dev-board/examples/oled-scroll",
+        },
+        "Sound",
+        {
+            name: "Beep",
+            files: "../esp32-dev-board/examples/beep",
+        },
+        {
+            name: "Play music",
+            files: "../esp32-dev-board/examples/play-music",
+        },
+        "Project",
+        {
+            name: "Light Always Here",
+            files: "../esp32-dev-board/examples/Light-always-here",
+        },
+        {
+            name: "Hot OR Cold",
+            files: "../esp32-dev-board/examples/hot-or-cold",
+        },
+        {
+            name: "Sad OR Happy",
+            files: "../esp32-dev-board/examples/sad-or-happy",
+        },        
+        {
+            name: "Random",
+            files: "../esp32-dev-board/examples/random",
+        },
+        {
+            name: "Counter",
+            files: "../esp32-dev-board/examples/counter",
+        },
+        {
+            name: "Countdown",
+            files: "../esp32-dev-board/examples/countdown",
+        },
+    ],    
     firmware: [{
         name: "MicroPython for TekTech RC Dev Board V2.0.0",
         path: "firmware/MicroPython_for_TekTech_RC_Dev_Board_V2_0_0.bin",
@@ -646,708 +696,273 @@ addBoard({
         },
         
             
-            {
-                name: "Control",
-                icon: `/images/icon/process.png`,
-                color: "#ed3467",
-                blocks: [{
-                        xml: `
-                                <block type="controls_wait">
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    "controls_forever",
-                    {
-                        xml: `
-                                <block type="controls_repeat_ext">
-                                    <value name="TIMES">
-                                        <shadow type="math_number">
-                                            <field name="NUM">10</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: `
-                                <block type="controls_for">
-                                    <field name="VAR">i</field>
-                                    <value name="FROM">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="TO">
-                                        <shadow type="math_number">
-                                            <field name="NUM">10</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="BY">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    "controls_if",
-                    {
-                        xml: `
-                                <block type="controls_if">
-                                    <mutation else="1"></mutation>
-                                </block>
-                            `
-                    },
-                    "controls_wait_until",
-                    "controls_whileUntil",
-                ]
-            },
-            {
-                name: "Operators",
-                icon: `/images/icon/maths.png`,
-                color: "#ed3467",
-                blocks: [{
-                        xml: '<label text="Math"></label>',
-                    },
-                    {
-                        xml: `
-                                <block type="math_arithmetic">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">ADD</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: `
-                                <block type="math_arithmetic">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">MINUS</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: `
-                                <block type="math_arithmetic">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">MULTIPLY</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: `
-                                <block type="math_arithmetic">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">DIVIDE</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: `
-                                <block type="math_modulo">
-                                    <value name="DIVIDEND">
-                                        <shadow type="math_number">
-                                            <field name="NUM">10</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="DIVISOR">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    "random_seed",
-                    {
-                        xml: `
-                                <block type="math_random_int">
-                                    <value name="FROM">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="TO">
-                                        <shadow type="math_number">
-                                            <field name="NUM">100</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: `
-                                <block type="math_trig">
-                                    <value name="NUM">
-                                        <shadow type="math_number">
-                                            <field name="NUM">45</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: `
-                                <block type="math_round">
-                                    <field name="OP">ROUND</field>
-                                    <value name="NUM">
+        {
+            name: "Control",
+            icon: `/images/icon/process.png`,
+            color: "#ed3467",
+            blocks: [{
+                    xml: `
+                            <block type="controls_wait">
+                                <value name="time">
                                     <shadow type="math_number">
-                                        <field name="NUM">3.1</field>
+                                        <field name="NUM">1</field>
                                     </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: '<label text="Logic"></label>',
-                    },
-                    {
-                        xml: `
-                                <block type="logic_compare">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">GT</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: `
-                                <block type="logic_compare">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">LT</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    {
-                        xml: `
-                                <block type="logic_compare">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">EQ</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                    },
-                    "logic_operation",
-                    "logic_negate",
-                    {
-                        xml: '<label text="Text"></label>',
-                    },
-                    "text",
-                    "text_join"
-                ]
-            },
-            {
-                name: "Variables",
-                icon: `/images/icon/relativity.png`,
-                color: "#ed3467",
-                blocks: "VARIABLE"
-            },
-            {
-                name: "Function",
-                icon: `/images/icon/jigsaw.png`,
-                color: "#ed3467",
-                blocks: "PROCEDURE"
-            },
-            {
-                name: "Examples",
-                icon: `/images/icon/example.png`,
-                color: "#e64c3c",
-                blocks: [
-                    {
-                        xml: '<label text="Blink Code"></label>',
-                        //xml: '<label text="Mix Colour"></label>',
-                    },
-                    {
-                        xml: `
-                        <block type="controls_forever">
-                            <statement name="block">
-                                    <block type="pin_digital_write">
-                                        <value name="value">
-                                            <shadow type="math_number">
-                                                <field name="NUM">1</field>
-                                            </shadow>
-                                        </value>
-                                        <value name="pin">
-                                            <shadow type="math_number">
-                                                <field name="NUM">5</field>
-                                            </shadow>
-                                        </value>
-                                        <next>
-                                        <block type="controls_wait">
-                                            <value name="time">
-                                                <shadow type="math_number">
-                                                    <field name="NUM">1</field>
-                                                </shadow>
-                                            </value>
-                                            <next>
-                                                <block type="pin_digital_write">
-                                                    <value name="value">
-                                                        <shadow type="math_number">
-                                                            <field name="NUM">0</field>
-                                                        </shadow>
-                                                    </value>
-                                                    <value name="pin">
-                                                        <shadow type="math_number">
-                                                            <field name="NUM">5</field>
-                                                        </shadow>
-                                                    </value>
-                                                    <next>
-                                                        <block type="controls_wait">
-                                                            <value name="time">
-                                                                <shadow type="math_number">
-                                                                    <field name="NUM">1</field>
-                                                                    </shadow>
-                                                                </value>
-                                                            </block>
-                                                        </next>
-                                                    </block>
-                                                </next>
-                                            </block>
-                                        </next>
-                                    </block>
-                                
-                            </statement>
-                        </block>
-                    `
-                    },
-                   
-                    {
-                        xml: '<label text="Happy or Sad "></label>',
-                        //xml: '<label text="Mix Colour"></label>',
-                    },
-                    {
-                        xml: 
-                         `<block type="rgbled_setup">
-                            <next>
-                                <block type="switch_on_press">
-                                    <statement name="callback">
-                                        <block type="display_draw_bitmap">
-                                                <value name="field_image">
-                                                    <shadow type="image">
-                                                        <field name="image">1</field>
-                                                    </shadow>
-                                                </value>   
-                                                <value name="x">
-                                                    <shadow type="math_number">
-                                                        <field name="NUM">30</field>
-                                                    </shadow>
-                                                </value> 
-                                                <value name="y">
-                                                    <shadow type="math_number">
-                                                        <field name="NUM">0</field>
-                                                    </shadow>
-                                                </value> 
-                                            <next>
-                                                <block type="display_show">
-                                                    <next>
-                                                        <block type="rgbled_fill_color1">
-                                                                <value name="color">
-                                                                    <shadow type="colour_picker">
-                                                                        <field name="COLOUR">#ff0000</field>
-                                                                    </shadow>
-                                                                </value>
-                                                            <next>
-                                                                <block type="rgbled_show">
-                                                                    <next> 
-                                                                        <block type="buzzer_notes">
-                                                                            <value name="notes">
-                                                                                <block type="make_note">
-                                                                                    <field name="notes">C5</field>
-                                                                                </block>
-                                                                            </value>
-                                                                                <field name="duration">1 / 2</field>
-                                                                    
-                                                                            <next>
-                                                                                <block type="rgbled_clear">                                                                            
-                                                                                    <next>
-                                                                                        <block type="rgbled_show">                                                                                                                                                                          
-                                                                                        </block>
-                                                                                    </next>
-                                                                                </block>
-                                                                            </next>                                                                        
-                                                                        </block>
-                                                                    </next>
-                                                                </block>
-                                                            </next>
-                                                        </block>
-                                                    </next>    
-                                                </block>
-                                            </next>
-                                        </block>
-                                    </statement>
-                                </block>
-                            </next>
-                         </block>`
-                    },
-                    {
-                        xml: '<label text="Light always here"></label>',
-                    },
-                    
-                    {
-                        xml: 
-                        `<block type="rgbled_setup">
-                            <next>
-                                <block type="controls_forever">
-                                    <statement name="block">
-                                        <block type="controls_if">
-                                            <mutation else="1"></mutation>
-                                            <value name="IF0">
-                                                <block type="logic_compare" inline="true">
-                                                    <field name="OP">LT</field>
-                                                    <value name="A">
-                                                        <block type="sensor_light">
-                                                            <field name="VAR">x</field>
-                                                        </block>
-                                                    </value>
-                                                    <value name="B">
-                                                        <block type="math_number">
-                                                            <field name="NUM">1</field>
-                                                        </block>
-                                                    </value>
-                                                </block>
-                                            </value>
-                                            <statement name="DO0">
-                                                <block type="display_draw_text">
-                                                    <value name="text">
-                                                        <shadow type="text">
-                                                            <field name="TEXT">calm down,</field>
-                                                        </shadow>
-                                                    </value>
-                                                    <value name="x">
-                                                        <shadow type="math_number">
-                                                            <field name="NUM">30</field>
-                                                        </shadow>
-                                                    </value>    
-                                                    <value name="y">
-                                                        <shadow type="math_number">
-                                                            <field name="NUM">30</field>
-                                                        </shadow>
-                                                    </value>  
-                                                    <next>
-                                                        <block type="display_draw_text">
-                                                            <value name="text">
-                                                                <shadow type="text">
-                                                                    <field name="TEXT">light still here</field>
-                                                                </shadow>
-                                                            </value>
-                                                            <value name="x">
-                                                                <shadow type="math_number">
-                                                                    <field name="NUM">0</field>
-                                                                </shadow>
-                                                            </value>    
-                                                            <value name="y">
-                                                                <shadow type="math_number">
-                                                                    <field name="NUM">40</field>
-                                                                </shadow>
-                                                            </value> 
-                                                             <next>
-                                                                <block type="display_show">
-                                                                    <next>
-                                                                        <block type="rgbled_rainbow">
-                                                                            <value name="wait">
-                                                                                <shadow type="math_number">
-                                                                                    <field name="NUM">30</field>
-                                                                                </shadow>
-                                                                            </value> 
-                                                                            <next>
-                                                                                <block type="rgbled_show">                                                                                                    
-                                                                                </block>                                                        
-                                                                            </next>
-                                                                        </block>                                                                                                                
-                                                                    </next>
-                                                                </block>                                            
-                                                            </next>
-                                                        </block>
-                                                    </next>                                            
-                                                </block>                                                    
-                                            </statement>
-                                            <statement name="ELSE">
-                                                <block type="rgbled_clear">
-                                                    <next>
-                                                        <block type="rgbled_show">
-                                                            <next>
-                                                                <block type="display_clear">                                                                                                
-                                                                    <next>
-                                                                        <block type="display_show">
-                                                                        </block>
-                                                                    </next>
-                                                                </block>                                                                                                    
-                                                            </next>
-                                                        </block>
-                                                    </next>
-                                                </block>
-                                            </statement>
-
-                                        </block>                        
-                                    </statement>                            
-                                </block>                                
-                            </next>
-                        </block>`
-                    }
-                    ,
-                    {
-                        xml: '<label text="Hot or Cold"></label>',
-                    },
-
-                    {
-                        xml: `   
-                        <block type="procedures_defnoreturn">
-                            <field name="NAME">Play alarm 1</field>
-                                <statement name="STACK">
-                                    <block type="controls_whileUntil">
-                                        <field name="MODE">UNTIL</field>
-                                        <value name="BOOL">
-                                            <block type="logic_compare">
-                                                <field name="OP">LT</field>
-                                                    <value name="A">
-                                                        <block type="sensor_temp">
-                                                            <field name="VAR">x</field>
-                                                        </block>
-                                                    </value>
-                                                    <value name="B">
-                                                        <block type="math_number" >
-                                                            <field name="NUM">30</field>
-                                                        </block>
-                                                    </value>
-                                            </block>
-                                        </value>
-                                        <statement name="DO">
-                                            <block type="display_draw_text">
-                                                    <value name="text">
-                                                        <shadow type="text">
-                                                            <field name="TEXT">it's hot today</field>
-                                                        </shadow>
-                                                    </value>
-                                                    <value name="x">
-                                                        <shadow type="math_number">
-                                                            <field name="NUM">10</field>
-                                                        </shadow>
-                                                    </value>    
-                                                    <value name="y">
-                                                        <shadow type="math_number">
-                                                            <field name="NUM">30</field>
-                                                        </shadow>
-                                                    </value> 
-                                                <next>
-                                                    <block type="display_show">
-                                                        <next>
-                                                            <block type="buzzer_tone">
-                                                                <value name="freq">
-                                                                    <shadow type="math_number">
-                                                                        <field name="NUM">2000</field>
-                                                                    </shadow>
-                                                                </value>    
-                                                                <value name="duration">
-                                                                    <shadow type="math_number">
-                                                                        <field name="NUM">1</field>
-                                                                    </shadow>
-                                                                </value> 
-                                                            </block>
-                                                        </next>
-                                                    </block>
-                                                </next>
-                                            </block>
-                                        </statement>
-                                    </block>
-                                </statement>
-                        </block> `      
-                    },
-                    {
-                        xml: `   
-                        <block type="procedures_defnoreturn">
-                            <field name="NAME">Play alarm 2</field>
-                                <statement name="STACK">
-                                    <block type="controls_whileUntil">
-                                        <field name="MODE">UNTIL</field>
-                                        <value name="BOOL">
-                                            <block type="logic_compare">
-                                                <field name="OP">GT</field>
-                                                    <value name="A">
-                                                        <block type="sensor_temp">
-                                                            <field name="VAR">x</field>
-                                                        </block>
-                                                    </value>
-                                                    <value name="B">
-                                                        <block type="math_number" >
-                                                            <field name="NUM">24</field>
-                                                        </block>
-                                                    </value>
-                                            </block>
-                                        </value>
-                                        <statement name="DO">
-                                            <block type="display_draw_text">
-                                                    <value name="text">
-                                                        <shadow type="text">
-                                                            <field name="TEXT">it's cold today</field>
-                                                        </shadow>
-                                                    </value>
-                                                    <value name="x">
-                                                        <shadow type="math_number">
-                                                            <field name="NUM">10</field>
-                                                        </shadow>
-                                                    </value>    
-                                                    <value name="y">
-                                                        <shadow type="math_number">
-                                                            <field name="NUM">30</field>
-                                                        </shadow>
-                                                    </value> 
-                                                <next>
-                                                    <block type="display_show">
-                                                        <next>
-                                                            <block type="buzzer_tone">
-                                                                <value name="freq">
-                                                                    <shadow type="math_number">
-                                                                        <field name="NUM">2000</field>
-                                                                    </shadow>
-                                                                </value>    
-                                                                <value name="duration">
-                                                                    <shadow type="math_number">
-                                                                        <field name="NUM">1</field>
-                                                                    </shadow>
-                                                                </value> 
-                                                            </block>
-                                                        </next>
-                                                    </block>
-                                                </next>
-                                            </block>
-                                        </statement>
-                                    </block>
-                                </statement>
-                        </block> `      
-                    },
-                    {
-                        xml: 
-                        `<block type="controls_forever">
-                            <statement name="block">
-                                <block type="controls_if">
-                                    <mutation else="0"></mutation>
-                                    <value name="IF0">
-                                        <block type="logic_compare" inline="true">
-                                            <field name="OP">GT</field>
-                                            <value name="A">
-                                                <block type="sensor_temp">
-                                                    <field name="VAR">x</field>
-                                                </block>
-                                            </value>
-                                            <value name="B">
-                                                <block type="math_number">
-                                                    <field name="NUM">30</field>
-                                                </block>
-                                            </value>
-                                        </block>
-                                    </value>
-                                    <statement name="DO0">
-                                        <block type="procedures_callnoreturn">
-                                            <mutation name="Play alarm 1"></mutation>
-                                        </block>                                                   
-                                    </statement>
-                                    <next>
-                                        <block type="controls_wait">                                                                                                    
-                                            <value name="time">
-                                                <shadow type="math_number">
-                                                    <field name="NUM">0.2</field>
-                                                </shadow>
-                                            </value>
-                                         
-                                            <next>
-                                                <block type="controls_if">
-                                                    <mutation else="0"></mutation>
-                                                    <value name="IF0">
-                                                        <block type="logic_compare" inline="true">
-                                                            <field name="OP">LT</field>
-                                                            <value name="A">
-                                                                <block type="sensor_temp">
-                                                                    <field name="VAR">x</field>
-                                                                </block>
-                                                            </value>
-                                                            <value name="B">
-                                                                <block type="math_number">
-                                                                    <field name="NUM">24</field>
-                                                                </block>
-                                                            </value>
-                                                        </block>
-                                                    </value>
-                                                    <statement name="DO0">
-                                                        <block type="procedures_callnoreturn">
-                                                            <mutation name="Play alarm 2"></mutation>
-                                                        </block>                                                   
-                                                    </statement>
-                                                </block>
-                                            </next>
-                                        </block>
-                                    </next>
-                                </block>
-                                
-                            </statement>                            
-                        </block>`
-                    },
-                ]
-            },
+                                </value>
+                            </block>
+                        `
+                },
+                "controls_forever",
+                {
+                    xml: `
+                            <block type="controls_repeat_ext">
+                                <value name="TIMES">
+                                    <shadow type="math_number">
+                                        <field name="NUM">10</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: `
+                            <block type="controls_for">
+                                <field name="VAR">i</field>
+                                <value name="FROM">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                                <value name="TO">
+                                    <shadow type="math_number">
+                                        <field name="NUM">10</field>
+                                    </shadow>
+                                </value>
+                                <value name="BY">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                "controls_if",
+                {
+                    xml: `
+                            <block type="controls_if">
+                                <mutation else="1"></mutation>
+                            </block>
+                        `
+                },
+                "controls_wait_until",
+                "controls_whileUntil",
+            ]
+        },
+        {
+            name: "Operators",
+            icon: `/images/icon/maths.png`,
+            color: "#ed3467",
+            blocks: [{
+                    xml: '<label text="Math"></label>',
+                },
+                {
+                    xml: `
+                            <block type="math_arithmetic">
+                                <value name="A">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                                <field name="OP">ADD</field>
+                                <value name="B">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: `
+                            <block type="math_arithmetic">
+                                <value name="A">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                                <field name="OP">MINUS</field>
+                                <value name="B">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: `
+                            <block type="math_arithmetic">
+                                <value name="A">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                                <field name="OP">MULTIPLY</field>
+                                <value name="B">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: `
+                            <block type="math_arithmetic">
+                                <value name="A">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                                <field name="OP">DIVIDE</field>
+                                <value name="B">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: `
+                            <block type="math_modulo">
+                                <value name="DIVIDEND">
+                                    <shadow type="math_number">
+                                        <field name="NUM">10</field>
+                                    </shadow>
+                                </value>
+                                <value name="DIVISOR">
+                                    <shadow type="math_number">
+                                        <field name="NUM">2</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                "random_seed",
+                {
+                    xml: `
+                            <block type="math_random_int">
+                                <value name="FROM">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                                <value name="TO">
+                                    <shadow type="math_number">
+                                        <field name="NUM">100</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: `
+                            <block type="math_trig">
+                                <value name="NUM">
+                                    <shadow type="math_number">
+                                        <field name="NUM">45</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: `
+                            <block type="math_round">
+                                <field name="OP">ROUND</field>
+                                <value name="NUM">
+                                <shadow type="math_number">
+                                    <field name="NUM">3.1</field>
+                                </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: '<label text="Logic"></label>',
+                },
+                {
+                    xml: `
+                            <block type="logic_compare">
+                                <value name="A">
+                                    <shadow type="math_number">
+                                        <field name="NUM">5</field>
+                                    </shadow>
+                                </value>
+                                <field name="OP">GT</field>
+                                <value name="B">
+                                    <shadow type="math_number">
+                                        <field name="NUM">5</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: `
+                            <block type="logic_compare">
+                                <value name="A">
+                                    <shadow type="math_number">
+                                        <field name="NUM">5</field>
+                                    </shadow>
+                                </value>
+                                <field name="OP">LT</field>
+                                <value name="B">
+                                    <shadow type="math_number">
+                                        <field name="NUM">5</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                {
+                    xml: `
+                            <block type="logic_compare">
+                                <value name="A">
+                                    <shadow type="math_number">
+                                        <field name="NUM">5</field>
+                                    </shadow>
+                                </value>
+                                <field name="OP">EQ</field>
+                                <value name="B">
+                                    <shadow type="math_number">
+                                        <field name="NUM">5</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        `
+                },
+                "logic_operation",
+                "logic_negate",
+                {
+                    xml: '<label text="Text"></label>',
+                },
+                "text",
+                "text_join"
+            ]
+        },
+        {
+            name: "Variables",
+            icon: `/images/icon/relativity.png`,
+            color: "#ed3467",
+            blocks: "VARIABLE"
+        },
+        {
+            name: "Function",
+            icon: `/images/icon/jigsaw.png`,
+            color: "#ed3467",
+            blocks: "PROCEDURE"
+        },
         ]
     }]
 });

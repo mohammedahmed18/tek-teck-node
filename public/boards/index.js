@@ -1,10 +1,11 @@
 let loadScript = (f) => {
-  /*let script = document.createElement("script");
+    /*let script = document.createElement("script");
     script.setAttribute("src", f);
     document.body.appendChild(script);*/
-  document.write(`<script src="${f}"></script>`);
+    document.write(`<script src="${f}"></script>`);
 };
 
+
 loadScript(`${rootPath}/boards/esp32-dev-board/index.js`); // Add ESP32 Dev Board
-// loadScript(`${rootPath}/boards/TekTech/index.js`); // Add ESP32 Dev Board
-loadScript(`${rootPath}/boards/TekTech-Robot/index.js`); // Add ESP32 Dev Board
+loadScript(`${rootPath}/boards/TekTech/index.js`);
+loadScript(`${rootPath}/boards/TekTech-Robot/index.js`);
