@@ -2,7 +2,7 @@ addBoard({
     id: "esp32-dev-board",
     name: "TekTech",
     description: "",
-    image: "images/cover.jfif",
+    image: "images/cover.png",
     script: [
         "../esp32-dev-board/js/field_bitmap.js",
         "../esp32-dev-board/js/field_note.js",
