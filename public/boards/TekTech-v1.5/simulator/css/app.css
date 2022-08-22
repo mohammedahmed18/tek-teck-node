@@ -184,7 +184,7 @@ section {
 /* SVG style */
 
 #path600, /* S1 */
-#path626, /* S2 */
+#path574, /* S2 */
 #path26, /* S3 */
 #path626, /* S4 */
 #path8379, /* Reset */
@@ -195,18 +195,18 @@ section {
 }
 /* RGB Id path3949  */
 /* S1 & S2 & S3 & S4 & Reset */
-#path600,
-#path626,
-#path26, 
-#path626,
+#path600, /* S1 */
+#path574, /* S2 */
+#path26, /* S3 */
+#path626, /* S4 */
 #path8379 {
   /* fill: #404040; */
 }
 
-#path600,
-#path626,
-#path26, 
-#path626,
+#path600, /* S1 */
+#path574, /* S2 */
+#path26, /* S3 */
+#path626, /* S4 */
 #path3949 {
   stroke-width: 1 !important;
 }
@@ -214,7 +214,7 @@ section {
 #path600:hover,
 #path626:hover,
 #path26:hover, 
-#path626:hover,
+#path574:hover,
 #path8379:hover {
   fill: #000;
   stroke: #ffff00 !important;
@@ -223,6 +223,7 @@ section {
 #path600:active,
 #path626:active,
 #path26:active, 
+#path574:active,
 #path626:active,
 #path8379:active {
   fill: #ff0000 !important;

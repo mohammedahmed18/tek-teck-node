@@ -8,40 +8,10 @@ let MicroPython = {
     charWaitProcess: "",
 };
 
-// Switch set handle
-// let setupSwitchHandle = () => {
-//   // S1
-//   let S1 = svgDocument.querySelector("#path600");
-//   S1.addEventListener("mousedown", () => {
-//     // S1 on Press
-//     simSystem.switch[0].value = 0;
-
-//   });
-
-//   S1.addEventListener("mouseup", () => {
-//     // S1 on Release
-//     simSystem.switch[0].value = 1;
-//   });
-
-//   // S2
-//   let S2 = svgDocument.querySelector("#path574");
-//   S2.addEventListener("mousedown", () => {
-//     // S2 on Press
-//     simSystem.switch[1].value = 0;
-//   });
-
-//   S2.addEventListener("mouseup", () => {
-//     // S2 on Release
-//     simSystem.switch[1].value = 1;
-//   });
-
-//   // Reset
-//   let Reset = svgDocument.querySelector("#path8379");
-//   Reset.addEventListener("click", () => {
-//     // Reset on Click
-//     runCodeAndProcess();
-//   });
-// };
+// #path600, /* S1 */
+// #path574, /* S2 */
+// #path26, /* S3 */
+// #path626, /* S4 */
 
 let setupSwitchHandle = () => {
     // S1 path600
@@ -69,19 +39,17 @@ let setupSwitchHandle = () => {
     // ////////////////////////////////////////////////////////////
 
     // S2
-    let S2 = svgDocument.querySelector("#path626");
-
+    let S2 = svgDocument.querySelector("#path574");
     // the device is tablet / mobile
-
     S2.addEventListener("touchstart", () => {
         // S2 on Press
         simSystem.switch[1].value = 1;
-        document.getElementById("path626").style.fill = "#ff0000";
+        document.getElementById("path574").style.fill = "#ff0000";
     });
     S2.addEventListener("touchend", () => {
         // S2 on Release
         simSystem.switch[1].value = 0;
-        document.getElementById("path626").style.fill = "black";
+        document.getElementById("path574").style.fill = "black";
     });
     // the device is pc
     S2.addEventListener("mousedown", () => {
@@ -94,35 +62,49 @@ let setupSwitchHandle = () => {
     });
 
     // Future development
-    // let S3 = svgDocument.querySelector("#path26");
-    // //S3 on press
-    // S3.addEventListener("mouseup", () => {
-    //   // S3 on Release
-    //   simSystem.switch[2].value = 1;
-    // });
-    // S3.addEventListener("mouseup", () => {
-    //   // S3 on Release
-    //   simSystem.switch[2].value = 0;
-    // });
-
-    // let S4 = svgDocument.querySelector("#path626");
-    // //S3 on press
-    // S4.addEventListener("mouseup", () => {
-    //   // S4 on Release
-    //   simSystem.switch[3].value = 1;
-    // });
-
-    // S4.addEventListener("mouseup", () => {
-    //   // S4 on Release
-    //   simSystem.switch[3].value = 0;
-    // });
-
-    // Reset
-    let Reset = svgDocument.querySelector("#path8379");
-    Reset.addEventListener("click", () => {
-        // Reset on Click
-        runCodeAndProcess();
+    // the device is tablet / mobile
+    let S3 = svgDocument.querySelector("#path26");
+    S3.addEventListener("touchstart", () => {
+        // S3 on Press
+        simSystem.switch[2].value = 1;
+        document.getElementById("path26").style.fill = "#ff0000";
     });
+    S3.addEventListener("touchend", () => {
+        // S3 on Release
+        simSystem.switch[2].value = 0;
+        document.getElementById("path26").style.fill = "black";
+    });
+    // the device is pc
+    S3.addEventListener("mousedown", () => {
+        // S3 on Press
+        simSystem.switch[2].value = 1;
+    });
+    S3.addEventListener("mouseup", () => {
+        // S3 on Release
+        simSystem.switch[2].value = 0;
+    });
+    //S4
+    let S4 = svgDocument.querySelector("#path626");
+    S4.addEventListener("touchstart", () => {
+        // S4 on Press
+        simSystem.switch[3].value = 1;
+        document.getElementById("path626").style.fill = "#ff0000";
+    });
+    S4.addEventListener("touchend", () => {
+        // S4 on Release
+        simSystem.switch[3].value = 0;
+        document.getElementById("path626").style.fill = "black";
+    });
+    // the device is pc
+    S4.addEventListener("mousedown", () => {
+        // S4 on Press
+        simSystem.switch[3].value = 1;
+    });
+    S4.addEventListener("mouseup", () => {
+        // S4 on Release
+        simSystem.switch[3].value = 0;
+    });
+
 };
 
 //g8943

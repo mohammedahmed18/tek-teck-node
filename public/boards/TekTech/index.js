@@ -4,7 +4,7 @@ addBoard({
   description: "",
   image: "../TekTech/images/cover.png",
   script: [
-    "../TekTech/js/field_dotmatrix.js",
+    "../TekTech/js/field_bitmap.js",
     "../TekTech/js/field_note.js",
     "../TekTech/js/sound.js",
 
@@ -53,14 +53,14 @@ addBoard({
     },
   ],
   autoCompletion: {
-    display: {
-      show: __Function,
-      show4x8: __Function,
-      left: __Function,
-      right: __Function,
-      plot: __Function,
-      scroll: __Function,
-      clear: __Function,
+    switch: {
+        S1: __Number,
+        S2: __Number,
+        S3: __Number,
+        S4: __Number,
+        value: __Function,
+        press: __Function,
+        release: __Function
     },
     sensor: {
       light: __Function,
@@ -84,111 +84,160 @@ addBoard({
       icon: "../kidbright32/images/puzzle.png",
       blocks: [
         {
-          name: "Display",
-          icon: `../kidbright32/images/matrix.png`,
-          color: "#e64c3c",
-          blocks: [
-            "display_custom",
-            {
-              xml: `
-                            <block type="display_show">
-                                <value name="value">
-                                    <shadow type="text">
-                                        <field name="TEXT">12</field>
-                                    </shadow>
-                                </value>
-                            </block>
-                        `,
-            },
-            {
-              xml: `
-                            <block type="display_scroll">
-                                <value name="value">
-                                    <shadow type="text">
-                                        <field name="TEXT">Hello!</field>
-                                    </shadow>
-                                </value>
-                            </block>
-                        `,
-            },
-            {
-              xml: `
-                            <block type="display_show4x8">
-                                <value name="value">
-                                    <shadow type="math_number">
-                                        <field name="NUM">1234</field>
-                                    </shadow>
-                                </value>
-                            </block>
-                        `,
-            },
-            {
-              xml: `
-                            <block type="display_left_show">
-                                <value name="value">
-                                    <shadow type="math_number">
-                                        <field name="NUM">12</field>
-                                    </shadow>
-                                </value>
-                            </block>
-                        `,
-            },
-            {
-              xml: `
-                            <block type="display_right_show">
-                                <value name="value">
-                                    <shadow type="math_number">
-                                        <field name="NUM">12</field>
-                                    </shadow>
-                                </value>
-                            </block>
-                        `,
-            },
-            {
-              xml: `
-                            <block type="display_plot">
-                                <value name="value">
-                                    <shadow type="math_number">
-                                        <field name="NUM">0</field>
-                                    </shadow>
-                                </value>
-                            </block>
-                        `,
-            },
-            {
-              xml: `
-                            <block type="display_dot_show">
-                                <value name="x">
-                                    <shadow type="math_number">
-                                        <field name="NUM">0</field>
-                                    </shadow>
-                                </value>
-                                <value name="y">
-                                    <shadow type="math_number">
-                                        <field name="NUM">0</field>
-                                    </shadow>
-                                </value>
-                            </block>
-                        `,
-            },
-            {
-              xml: `
-                            <block type="display_dot_hide">
-                                <value name="x">
-                                    <shadow type="math_number">
-                                        <field name="NUM">0</field>
-                                    </shadow>
-                                </value>
-                                <value name="y">
-                                    <shadow type="math_number">
-                                        <field name="NUM">0</field>
-                                    </shadow>
-                                </value>
-                            </block>
-                        `,
-            },
-            "display_clear",
-          ],
+            name: "Display",
+            icon: `/images/icon/display.png`,
+            color: "#e64c3c",
+            blocks: [
+                {
+                    xml: `
+                        <block type="display_draw_text">
+                            <value name="text">
+                                <shadow type="text">
+                                    <field name="TEXT">Hello!</field>
+                                </shadow>
+                            </value>
+                            <value name="x">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="y">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                        </block>
+                    `
+                },
+                {
+                    xml: `
+                        <block type="display_scroll_text">
+                            <value name="text">
+                                <shadow type="text">
+                                    <field name="TEXT">Hello!</field>
+                                </shadow>
+                            </value>
+                            <value name="y">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                        </block>
+                    `
+                },         
+                {
+                    xml: `
+                        <block type="display_draw_line">
+                            <value name="x1">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="y1">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="x2">
+                                <shadow type="math_number">
+                                    <field name="NUM">60</field>
+                                </shadow>
+                            </value>
+                            <value name="y2">
+                                <shadow type="math_number">
+                                    <field name="NUM">60</field>
+                                </shadow>
+                            </value>
+                        </block>
+                    `
+                },
+                {
+                    xml: `
+                        <block type="display_draw_rect">
+                            <value name="x">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="y">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="width">
+                                <shadow type="math_number">
+                                    <field name="NUM">60</field>
+                                </shadow>
+                            </value>
+                            <value name="height">
+                                <shadow type="math_number">
+                                    <field name="NUM">60</field>
+                                </shadow>
+                            </value>
+                        </block>
+                    `
+                }, 
+                {
+                    xml: `
+                        <block type="display_draw_triangle">
+                            <value name="x1">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="y1">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="x2">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="y2">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="x3">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="y3">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                        </block>
+                    `
+                }, 
+                {
+                    xml: `
+                        <block type="display_draw_circle">
+                            <value name="x">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="y">
+                                <shadow type="math_number">
+                                    <field name="NUM">0</field>
+                                </shadow>
+                            </value>
+                            <value name="r">
+                                <shadow type="math_number">
+                                    <field name="NUM">30</field>
+                                </shadow>
+                            </value>
+                           
+                        </block>
+                    `
+                },
+                "display_fill",
+                "display_clear",
+            ]
         },
         {
           name: "Basic",

@@ -53,7 +53,25 @@ addBoard({
             name: "Analog Read (IN1)",
             files: "../esp32-dev-board/examples/analog-read",
         },
-        "Screen ",
+        "Morse code",
+        {
+            name: "Transmitter",
+            files: "../esp32-dev-board/examples/Transmitter",
+        },
+        {
+            name: "Receiver",
+            files: "../esp32-dev-board/examples/Receiver",
+        },
+        "Robot",
+        {
+            name: "Remote",
+            files: "../esp32-dev-board/examples/Remote_control",
+        },
+        {
+            name: "RC Car",
+            files: "../esp32-dev-board/examples/RobotCar",
+        },
+        "Screen",
         {
             name: "Text scroll",
             files: "../esp32-dev-board/examples/oled-scroll",
@@ -682,8 +700,8 @@ addBoard({
                 {
                     xml: '<label text="Switch"></label>',
                 },
-		        "switch_on_release",
                 "switch_on_press",
+		        "switch_on_release",
                 "switch_is_press",
                 "switch_is_release",
                 "switch_get_value",
@@ -693,9 +711,7 @@ addBoard({
                 "touch_on_press",
                 "touch_get_value",
             ]
-        },
-        
-            
+        },           
         {
             name: "Control",
             icon: `/images/icon/process.png`,

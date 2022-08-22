@@ -14,7 +14,7 @@
 // before the code. Then that object will be used in the code, and you
 // can continue to use Module afterwards as well.
 var Module = typeof Module != 'undefined' ? Module : {};
-//hhhhh
+
 // See https://caniuse.com/mdn-javascript_builtins_object_assign
 
 // See https://caniuse.com/mdn-javascript_builtins_bigint64array
@@ -422,6 +422,10 @@ function unexportedRuntimeSymbol(sym) {
 }
 
 // end include: runtime_debug.js
+var tempRet0 = 0;
+var setTempRet0 = (value) => { tempRet0 = value; };
+var getTempRet0 = () => tempRet0;
+
 
 
 // === Preamble library stuff ===
@@ -727,7 +731,6 @@ function checkStackCookie() {
 // end include: runtime_assertions.js
 var __ATPRERUN__  = []; // functions called before the runtime is initialized
 var __ATINIT__    = []; // functions called during startup
-var __ATMAIN__    = []; // functions called when main() is to be run
 var __ATEXIT__    = []; // functions called during shutdown
 var __ATPOSTRUN__ = []; // functions called after the main() is called
 
@@ -759,12 +762,6 @@ function initRuntime() {
   callRuntimeCallbacks(__ATINIT__);
 }
 
-function preMain() {
-  checkStackCookie();
-  
-  callRuntimeCallbacks(__ATMAIN__);
-}
-
 function postRun() {
   checkStackCookie();
 
@@ -784,10 +781,6 @@ function addOnPreRun(cb) {
 
 function addOnInit(cb) {
   __ATINIT__.unshift(cb);
-}
-
-function addOnPreMain(cb) {
-  __ATMAIN__.unshift(cb);
 }
 
 function addOnExit(cb) {
@@ -1180,18 +1173,9 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  53248: () => { return simSystem.getCharsLenWaitProcass(); },  
- 53295: () => { return simSystem.getAndPopFirstCharsWaitProcass(); },  
- 53350: ($0) => { return simSystem.isCharsWaitProcassHasInterruptChar($0) },  
- 53410: () => { if (typeof simSystem !== "undefined") { try { return simSystem.ldr.getValue(); } catch(err) { console.log(err); } } return 0; },  
- 53540: () => { if (typeof simSystem !== "undefined") { try { return simSystem.lm75.getValue() * 100; } catch(err) { console.log(err); } } return 0; },  
- 53677: ($0, $1) => { const buf = $0; const len = $1; let data = [ ]; for (let i=0;i<len;i++) { data.push(HEAPU8[buf + i]); } for (let i=0;i<len-16;i++) { data.push(0); } if (typeof simSystem !== "undefined") { try { simSystem.display.setData(data); } catch(err) { console.log(err); } } else { console.log("Display data", data); } },  
- 53990: () => { return simSystem.switch[0].value; },  
- 54028: () => { return simSystem.switch[1].value; },  
- 54066: () => { return simSystem.switch[2].value; },  
- 54104: () => { return simSystem.switch[3].value; }
+  49992: ($0) => { return simSystem.isCharsWaitProcassHasInterruptChar($0) }
 };
-function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { console.log("Debug Buzzer: Freq", freq, "Duty", duty); return; } if (typeof simPlayNoteContext === "undefined") { simPlayNoteContext = new AudioContext(); } if (typeof simPlayNoteOscillator === "undefined") { simPlayNoteOscillator = null; } if (simPlayNoteOscillator) { simPlayNoteOscillator.stop(); simPlayNoteOscillator = null; } if (typeof simSystem !== "undefined") { simSystem.buzzer.setStatus(duty !== 0); } if (duty === 0) { return; } simPlayNoteOscillator = simPlayNoteContext.createOscillator(); let playNoteGain = simPlayNoteContext.createGain(); playNoteGain.gain.value = duty / 512; simPlayNoteOscillator.type = "square"; simPlayNoteOscillator.frequency.value = freq; simPlayNoteOscillator.connect(playNoteGain); playNoteGain.connect(simPlayNoteContext.destination); simPlayNoteOscillator.start(); }
+
 
 
 
@@ -1393,6 +1377,21 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         callUserCallback(func);
       }, timeout);
     }
+  function _emscripten_scan_registers(func) {
+      return Asyncify.handleSleep((wakeUp) => {
+        // We must first unwind, so things are spilled to the stack. Then while
+        // we are pausing we do the actual scan. After that we can resume. Note
+        // how using a timeout here avoids unbounded call stack growth, which
+        // could happen if we tried to scan the stack immediately after unwinding.
+        safeSetTimeout(() => {
+          var stackBegin = Asyncify.currData + 12;
+          var stackEnd = HEAP32[Asyncify.currData >> 2];
+          (function(a1, a2) {  dynCall_vii.apply(null, [func, a1, a2]); })(stackBegin, stackEnd);
+          wakeUp();
+        }, 0);
+      });
+    }
+
   function _emscripten_sleep(ms) {
       // emscripten_sleep() does not return a value, but we still need a |return|
       // here for stack switching support (ASYNCIFY=2). In that mode this function
@@ -1401,11 +1400,9 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       return Asyncify.handleSleep((wakeUp) => safeSetTimeout(wakeUp, ms));
     }
 
-  var tempRet0 = 0;
-  function getTempRet0() {
-      return tempRet0;
+  function _getTempRet0() {
+      return getTempRet0();
     }
-  var _getTempRet0 = getTempRet0;
 
   function _mp_js_hook() {
           if (typeof window === 'undefined') {
@@ -1417,7 +1414,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
                   var n = fs.readSync(process.stdin.fd, buf, 0, 1);
                   if (n > 0) {
                       if (buf[0] == mp_interrupt_char) {
-                          Module.ccall('mp_keyboard_interrupt', 'null', ['null'], ['null']);
+                          Module.ccall('mp_sched_keyboard_interrupt', 'null', ['null'], ['null']);
                       } else {
                           process.stdout.write(String.fromCharCode(buf[0]));
                       }
@@ -1430,6 +1427,13 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
               }
           }
       }
+
+  /** @type {function(...*):?} */
+  function _mp_js_switch_poll(
+  ) {
+  err('missing function: mp_js_switch_poll'); abort(-1);
+  }
+  Module["_mp_js_switch_poll"] = _mp_js_switch_poll;
 
   function _mp_js_ticks_ms() {
           return (new Date()).getTime() - MP_JS_EPOCH;
@@ -1451,48 +1455,8 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
           }
       }
 
-  function setTempRet0(val) {
-      tempRet0 = val;
-    }
-  var _setTempRet0 = setTempRet0;
-
-  var SYSCALLS = {varargs:undefined,get:function() {
-        assert(SYSCALLS.varargs != undefined);
-        SYSCALLS.varargs += 4;
-        var ret = HEAP32[(((SYSCALLS.varargs)-(4))>>2)];
-        return ret;
-      },getStr:function(ptr) {
-        var ret = UTF8ToString(ptr);
-        return ret;
-      }};
-  function _proc_exit(code) {
-      EXITSTATUS = code;
-      if (!keepRuntimeAlive()) {
-        if (Module['onExit']) Module['onExit'](code);
-        ABORT = true;
-      }
-      quit_(code, new ExitStatus(code));
-    }
-  /** @param {boolean|number=} implicit */
-  function exitJS(status, implicit) {
-      EXITSTATUS = status;
-  
-      checkUnflushedContent();
-  
-      // if exit() was called explicitly, warn the user if the runtime isn't actually being shut down
-      if (keepRuntimeAlive() && !implicit) {
-        var msg = 'program exited (with status: ' + status + '), but EXIT_RUNTIME is not set, so halting execution but not exiting the runtime or preventing further async execution (build with EXIT_RUNTIME=1, if you want a true shutdown)';
-        err(msg);
-      }
-  
-      _proc_exit(status);
-    }
-
-  function allocateUTF8OnStack(str) {
-      var size = lengthBytesUTF8(str) + 1;
-      var ret = stackAlloc(size);
-      stringToUTF8Array(str, HEAP8, ret, size);
-      return ret;
+  function _setTempRet0(val) {
+      setTempRet0(val);
     }
 
   var wasmTableMirror = [];
@@ -1854,6 +1818,12 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       return ret;
     }
 
+  function allocateUTF8OnStack(str) {
+      var size = lengthBytesUTF8(str) + 1;
+      var ret = stackAlloc(size);
+      stringToUTF8Array(str, HEAP8, ret, size);
+      return ret;
+    }
 
   /** @deprecated @param {boolean=} dontAddNull */
   function writeStringToMemory(string, buffer, dontAddNull) {
@@ -2005,8 +1975,6 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         return ccall(ident, returnType, argTypes, arguments, opts);
       }
     }
-
-
 
 
   function runAndAbortIfError(func) {
@@ -2245,6 +2213,7 @@ var asmLibraryArg = {
   "emscripten_asm_const_int": _emscripten_asm_const_int,
   "emscripten_memcpy_big": _emscripten_memcpy_big,
   "emscripten_resize_heap": _emscripten_resize_heap,
+  "emscripten_scan_registers": _emscripten_scan_registers,
   "emscripten_sleep": _emscripten_sleep,
   "getTempRet0": _getTempRet0,
   "invoke_i": invoke_i,
@@ -2257,8 +2226,8 @@ var asmLibraryArg = {
   "invoke_vii": invoke_vii,
   "invoke_viii": invoke_viii,
   "invoke_viiii": invoke_viiii,
-  "js_audio": js_audio,
   "mp_js_hook": _mp_js_hook,
+  "mp_js_switch_poll": _mp_js_switch_poll,
   "mp_js_ticks_ms": _mp_js_ticks_ms,
   "mp_js_write": _mp_js_write,
   "setTempRet0": _setTempRet0
@@ -2278,7 +2247,7 @@ var _saveSetjmp = Module["_saveSetjmp"] = createExportWrapper("saveSetjmp");
 var _free = Module["_free"] = createExportWrapper("free");
 
 /** @type {function(...*):?} */
-var _mp_keyboard_interrupt = Module["_mp_keyboard_interrupt"] = createExportWrapper("mp_keyboard_interrupt");
+var _mp_sched_keyboard_interrupt = Module["_mp_sched_keyboard_interrupt"] = createExportWrapper("mp_sched_keyboard_interrupt");
 
 /** @type {function(...*):?} */
 var _mp_js_do_str = Module["_mp_js_do_str"] = createExportWrapper("mp_js_do_str");
@@ -2293,16 +2262,15 @@ var _mp_js_init = Module["_mp_js_init"] = createExportWrapper("mp_js_init");
 var _mp_js_init_repl = Module["_mp_js_init_repl"] = createExportWrapper("mp_js_init_repl");
 
 /** @type {function(...*):?} */
-var _main = Module["_main"] = createExportWrapper("main");
-
-/** @type {function(...*):?} */
 var _mp_hal_get_interrupt_char = Module["_mp_hal_get_interrupt_char"] = createExportWrapper("mp_hal_get_interrupt_char");
 
 /** @type {function(...*):?} */
-var _mp_switch_value_change_handle = Module["_mp_switch_value_change_handle"] = createExportWrapper("mp_switch_value_change_handle");
+var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");
 
 /** @type {function(...*):?} */
-var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");
+var _emscripten_stack_get_base = Module["_emscripten_stack_get_base"] = function() {
+  return (_emscripten_stack_get_base = Module["_emscripten_stack_get_base"] = Module["asm"]["emscripten_stack_get_base"]).apply(null, arguments);
+};
 
 /** @type {function(...*):?} */
 var _fflush = Module["_fflush"] = createExportWrapper("fflush");
@@ -2326,11 +2294,6 @@ var _emscripten_stack_get_free = Module["_emscripten_stack_get_free"] = function
 };
 
 /** @type {function(...*):?} */
-var _emscripten_stack_get_base = Module["_emscripten_stack_get_base"] = function() {
-  return (_emscripten_stack_get_base = Module["_emscripten_stack_get_base"] = Module["asm"]["emscripten_stack_get_base"]).apply(null, arguments);
-};
-
-/** @type {function(...*):?} */
 var _emscripten_stack_get_end = Module["_emscripten_stack_get_end"] = function() {
   return (_emscripten_stack_get_end = Module["_emscripten_stack_get_end"] = Module["asm"]["emscripten_stack_get_end"]).apply(null, arguments);
 };
@@ -2348,22 +2311,22 @@ var stackAlloc = Module["stackAlloc"] = createExportWrapper("stackAlloc");
 var dynCall_viii = Module["dynCall_viii"] = createExportWrapper("dynCall_viii");
 
 /** @type {function(...*):?} */
-var dynCall_ii = Module["dynCall_ii"] = createExportWrapper("dynCall_ii");
-
-/** @type {function(...*):?} */
 var dynCall_vi = Module["dynCall_vi"] = createExportWrapper("dynCall_vi");
 
 /** @type {function(...*):?} */
-var dynCall_vii = Module["dynCall_vii"] = createExportWrapper("dynCall_vii");
+var dynCall_ii = Module["dynCall_ii"] = createExportWrapper("dynCall_ii");
 
 /** @type {function(...*):?} */
-var dynCall_iii = Module["dynCall_iii"] = createExportWrapper("dynCall_iii");
+var dynCall_vii = Module["dynCall_vii"] = createExportWrapper("dynCall_vii");
 
 /** @type {function(...*):?} */
 var dynCall_viiii = Module["dynCall_viiii"] = createExportWrapper("dynCall_viiii");
 
 /** @type {function(...*):?} */
 var dynCall_iiii = Module["dynCall_iiii"] = createExportWrapper("dynCall_iiii");
+
+/** @type {function(...*):?} */
+var dynCall_iii = Module["dynCall_iii"] = createExportWrapper("dynCall_iii");
 
 /** @type {function(...*):?} */
 var dynCall_v = Module["dynCall_v"] = createExportWrapper("dynCall_v");
@@ -2373,12 +2336,6 @@ var dynCall_iiiii = Module["dynCall_iiiii"] = createExportWrapper("dynCall_iiiii
 
 /** @type {function(...*):?} */
 var dynCall_i = Module["dynCall_i"] = createExportWrapper("dynCall_i");
-
-/** @type {function(...*):?} */
-var dynCall_dd = Module["dynCall_dd"] = createExportWrapper("dynCall_dd");
-
-/** @type {function(...*):?} */
-var dynCall_ddd = Module["dynCall_ddd"] = createExportWrapper("dynCall_ddd");
 
 /** @type {function(...*):?} */
 var dynCall_viiiiii = Module["dynCall_viiiiii"] = createExportWrapper("dynCall_viiiiii");
@@ -2398,8 +2355,7 @@ var _asyncify_start_rewind = Module["_asyncify_start_rewind"] = createExportWrap
 /** @type {function(...*):?} */
 var _asyncify_stop_rewind = Module["_asyncify_stop_rewind"] = createExportWrapper("asyncify_stop_rewind");
 
-var ___start_em_js = Module['___start_em_js'] = 54142;
-var ___stop_em_js = Module['___stop_em_js'] = 55023;
+
 function invoke_ii(index,a1) {
   var sp = stackSave();
   try {
@@ -2422,10 +2378,21 @@ function invoke_viii(index,a1,a2,a3) {
   }
 }
 
-function invoke_iiii(index,a1,a2,a3) {
+function invoke_iiiii(index,a1,a2,a3,a4) {
   var sp = stackSave();
   try {
-    return dynCall_iiii(index,a1,a2,a3);
+    return dynCall_iiiii(index,a1,a2,a3,a4);
+  } catch(e) {
+    stackRestore(sp);
+    if (e !== e+0) throw e;
+    _setThrew(1, 0);
+  }
+}
+
+function invoke_v(index) {
+  var sp = stackSave();
+  try {
+    dynCall_v(index);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0) throw e;
@@ -2455,21 +2422,10 @@ function invoke_vi(index,a1) {
   }
 }
 
-function invoke_v(index) {
+function invoke_iiii(index,a1,a2,a3) {
   var sp = stackSave();
   try {
-    dynCall_v(index);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_i(index) {
-  var sp = stackSave();
-  try {
-    return dynCall_i(index);
+    return dynCall_iiii(index,a1,a2,a3);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0) throw e;
@@ -2488,10 +2444,10 @@ function invoke_vii(index,a1,a2) {
   }
 }
 
-function invoke_iiiii(index,a1,a2,a3,a4) {
+function invoke_i(index) {
   var sp = stackSave();
   try {
-    return dynCall_iiiii(index,a1,a2,a3,a4);
+    return dynCall_i(index);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0) throw e;
@@ -2547,6 +2503,8 @@ var unexportedRuntimeSymbols = [
   'getCompilerSetting',
   'print',
   'printErr',
+  'getTempRet0',
+  'setTempRet0',
   'callMain',
   'abort',
   'keepRuntimeAlive',
@@ -2556,9 +2514,6 @@ var unexportedRuntimeSymbols = [
   'stackAlloc',
   'writeStackCookie',
   'checkStackCookie',
-  'tempRet0',
-  'getTempRet0',
-  'setTempRet0',
   'ptrToString',
   'zeroMemory',
   'stringToNewUTF8',
@@ -2765,6 +2720,7 @@ var missingLibrarySymbols = [
   'ptrToString',
   'zeroMemory',
   'stringToNewUTF8',
+  'exitJS',
   'emscripten_realloc_buffer',
   'setErrNo',
   'inetPton4',
@@ -2888,38 +2844,6 @@ dependenciesFulfilled = function runCaller() {
   if (!calledRun) dependenciesFulfilled = runCaller; // try this again later, after new deps are fulfilled
 };
 
-function callMain(args) {
-  assert(runDependencies == 0, 'cannot call main when async dependencies remain! (listen on Module["onRuntimeInitialized"])');
-  assert(__ATPRERUN__.length == 0, 'cannot call main when preRun functions remain to be called');
-
-  var entryFunction = Module['_main'];
-
-  args = args || [];
-  args.unshift(thisProgram);
-
-  var argc = args.length;
-  var argv = stackAlloc((argc + 1) * 4);
-  var argv_ptr = argv >> 2;
-  args.forEach((arg) => {
-    HEAP32[argv_ptr++] = allocateUTF8OnStack(arg);
-  });
-  HEAP32[argv_ptr] = 0;
-
-  try {
-
-    var ret = entryFunction(argc, argv);
-
-    // In PROXY_TO_PTHREAD builds, we should never exit the runtime below, as
-    // execution is asynchronously handed off to a pthread.
-    // if we're not running an evented main loop, it's time to exit
-    exitJS(ret, /* implicit = */ true);
-    return ret;
-  }
-  catch (e) {
-    return handleException(e);
-  }
-}
-
 function stackCheckInit() {
   // This is normally called automatically during __wasm_call_ctors but need to
   // get these values before even running any of the ctors so we call it redundantly
@@ -2957,11 +2881,9 @@ function run(args) {
 
     initRuntime();
 
-    preMain();
-
     if (Module['onRuntimeInitialized']) Module['onRuntimeInitialized']();
 
-    if (shouldRunNow) callMain(args);
+    assert(!Module['_main'], 'compiled without a main, but one is present. if you added it from JS, use Module["onRuntimeInitialized"]');
 
     postRun();
   }
@@ -3017,12 +2939,8 @@ if (Module['preInit']) {
   }
 }
 
-// shouldRunNow refers to calling main(), not run().
-var shouldRunNow = true;
-
-if (Module['noInitialRun']) shouldRunNow = false;
-
 run();
+
 
 
 

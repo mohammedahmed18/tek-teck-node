@@ -14,6 +14,14 @@ Blockly.defineBlocksWithJsonArray([
         [
           "B2",
           "S2"
+        ],
+        [
+          "B3",
+          "S3"
+        ],
+        [
+          "B4",
+          "S4"
         ]
       ]
     }
@@ -38,6 +46,14 @@ Blockly.defineBlocksWithJsonArray([
         [
           "B2",
           "S2"
+        ],
+        [
+          "B3",
+          "S3"
+        ],
+        [
+          "B4",
+          "S4"
         ]
       ]
     }
@@ -62,6 +78,14 @@ Blockly.defineBlocksWithJsonArray([
         [
           "B2",
           "S2"
+        ],
+        [
+          "B3",
+          "S3"
+        ],
+        [
+          "B4",
+          "S4"
         ]
       ]
     }
@@ -86,7 +110,15 @@ Blockly.defineBlocksWithJsonArray([
         [
           "B2",
           "S2"
-        ]   
+        ],
+        [
+          "B3",
+          "S3"
+        ],
+        [
+          "B4",
+          "S4"
+        ] 
       ]
     },
     {
@@ -118,6 +150,14 @@ Blockly.defineBlocksWithJsonArray([
         [
           "B2",
           "S2"
+        ],
+        [
+          "B3",
+          "S3"
+        ],
+        [
+          "B4",
+          "S4"
         ]
       ]
     },
@@ -150,6 +190,14 @@ Blockly.defineBlocksWithJsonArray([
         [
           "B2",
           "S2"
+        ],
+        [
+          "B3",
+          "S3"
+        ],
+        [
+          "B4",
+          "S4"
         ]
       ]
     },

@@ -27,9 +27,21 @@ Blockly.Python['sensor_light'] = function(block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['ultrasonic_read'] = function(block) {
+Blockly.Python['ultrasonic'] = function(block) {
     Blockly.Python.definitions_['import_sensor'] = 'import sensor';
-  
-    var code = `sensor.distance()`;
+
+    var dropdown_pin = block.getFieldValue('pin');
+    var code;
+    if (dropdown_pin == 35){
+        code = `sensor.read(2,35)`;
+   }
+    //var code = `sensor.distance(2,35)`;
+    return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['sensor_temp'] = function (block) {
+    Blockly.Python.definitions_['import_sensor'] = 'import sensor';
+
+    var code = 'sensor.temperature()';
     return [code, Blockly.Python.ORDER_NONE];
 };

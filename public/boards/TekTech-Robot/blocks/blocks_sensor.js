@@ -8,15 +8,15 @@ Blockly.defineBlocksWithJsonArray([
       "name": "sensor",
       "options": [
         [
-          "Light1",
+          "Sensor1",
           "1"
         ],
         [
-          "Light2",
+          "Sensor2",
           "2"
         ],
         [
-          "Light3",
+          "Sensor3",
           "3"
         ]
       ]
@@ -74,31 +74,34 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "sensor_light",
-  "message0": "%1 light level (%%)",
-  "args0": [
-    {
-      "type": "field_dropdown",
-      "name": "sensor",
-      "options": [
-        [
-          "LDR1",
-          "1"
-        ],
-        [
-          "LDR2",
-          "2"
-        ]
-      ]
-    }
-  ],
+  "message0": "light level (%%)",
   "output": "Number",
   "colour": "#E67E22",
-  "tooltip": "Return 0% - 100% of light level",
+  "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "ultrasonic_read",
-  "message0": "distance (cm)",
+  "type": "sensor_temp",
+  "message0": "temperature (°C)",
+  "output": "Number",
+  "colour": "#E67E22",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "ultrasonic",
+  "message0": "Ultrsonic in  %1 The Distance is (cm)",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "pin",
+      "options": [
+          [
+              "S3",
+              "35"
+          ]   
+    ]}
+  ],
   "output": "Number",
   "colour": "#E67E22",
   "tooltip": "Read distance in cm",
