@@ -51,7 +51,7 @@ setTimeout(() => {
   svg = document
     .querySelector('#simulator iframe')
     .contentWindow.document.querySelector('#mysvg');
-}, 1000);
+}, 2000);
 
 Blockly.Python['display_draw_text'] = function (block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
