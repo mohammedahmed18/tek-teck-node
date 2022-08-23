@@ -51,7 +51,7 @@ setTimeout(() => {
   svg = document
     .querySelector('#simulator iframe')
     .contentWindow.document.querySelector('#mysvg');
-}, 2000);
+}, 1000);
 
 Blockly.Python['display_draw_text'] = function (block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
@@ -69,7 +69,7 @@ Blockly.Python['display_scroll_text'] = function (block) {
 
   var value_text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
   var value_y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
-
+  
   var code = `display.scroll(str(${value_text}), ${value_y})\n`;
   svg.innerHTML += drawAnimatedText([value_text, 0, value_y]);
   return code;
@@ -108,7 +108,7 @@ Blockly.Python['display_draw_rect'] = function (block) {
   var code = `display.${
     +dropdown_fill ? 'fill_rect' : 'rect'
   }(${value_x}, ${value_y}, ${value_width}, ${value_height}, 1)\n`;
-  svg.innerHTML += drawRectangle([dropdown_fill, value_x, value_y, value_width, value_y]);
+  svg.innerHTML += drawRectangle([dropdown_fill, value_x, value_y, value_width, value_height]);
   return code;
 };
 
