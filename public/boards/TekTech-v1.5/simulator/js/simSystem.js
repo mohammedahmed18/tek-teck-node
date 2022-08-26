@@ -91,7 +91,7 @@ simSystem = {
     },
     {
       value: 1,
-    },
+    }
   ],
   buzzer: {
     setStatus: (status) => {

@@ -22,7 +22,7 @@ const drawTriangle = ([fill, x1, y1, x2, y2, x3, y3]) => {
   if (fill == '1') {
     return `<polygon points="${x1},${y1} ${x2},${y2} ${x3},${y3}" style="fill:crimson;stroke:crimson;stroke-width:1" />`;
   } else {
-    return `<polygon points="50,10 100,50 100,0" style="fill:transparent;stroke:crimson;stroke-width:1" />`;
+    return `<polygon points="${x1},${y1} ${x2},${y2} ${x3},${y3}" style="fill:transparent;stroke:crimson;stroke-width:1" />`;
   }
 };
 
