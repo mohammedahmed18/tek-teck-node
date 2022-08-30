@@ -44,17 +44,17 @@ addBoard({
         "../kidbright32/blocks/generators_avanced.js",
     ],
     modules: [ ],
-    examples: [
-        "Robot",
-        {
-            name: "Remote",
-            files: "../esp32-dev-board/examples/Remote_control",
-        },
-        {
-            name: "RC Car",
-            files: "../esp32-dev-board/examples/RobotCar",
-        },
-    ],    
+    // examples: [
+    //     "Robot",
+    //     {
+    //         name: "Remote",
+    //         files: "../esp32-dev-board/examples/Remote_control",
+    //     },
+    //     {
+    //         name: "RC Car",
+    //         files: "../esp32-dev-board/examples/RobotCar",
+    //     },
+    // ],    
     firmware: [
         {
             name: "MicroPython for RC Robot  V2.0.0",

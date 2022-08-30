@@ -63,7 +63,7 @@ Blockly.Python['switch_on_press'] = function(block) {
          code = `switch.pressed(switch.${dropdown_pin}, ${functionName})\n`;
     }
     else{
-        code = `switch.press(switch.${dropdown_pin}, ${functionName})\n`;
+        code = `switch.pressed(switch.${dropdown_pin}, ${functionName})\n`;
     }
     return code;
 };

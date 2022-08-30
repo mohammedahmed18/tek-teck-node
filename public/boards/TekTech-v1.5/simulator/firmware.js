@@ -1180,16 +1180,16 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  53248: () => { return simSystem.getCharsLenWaitProcass(); },  
- 53295: () => { return simSystem.getAndPopFirstCharsWaitProcass(); },  
- 53350: ($0) => { return simSystem.isCharsWaitProcassHasInterruptChar($0) },  
- 53410: () => { if (typeof simSystem !== "undefined") { try { return simSystem.ldr.getValue(); } catch(err) { console.log(err); } } return 0; },  
- 53540: () => { if (typeof simSystem !== "undefined") { try { return simSystem.lm75.getValue() * 100; } catch(err) { console.log(err); } } return 0; },  
- 53677: ($0, $1) => { const buf = $0; const len = $1; let data = [ ]; for (let i=0;i<len;i++) { data.push(HEAPU8[buf + i]); } for (let i=0;i<len-16;i++) { data.push(0); } if (typeof simSystem !== "undefined") { try { simSystem.display.setData(data); } catch(err) { console.log(err); } } else { console.log("Display data", data); } },  
- 53990: () => { return simSystem.switch[0].value; },  
- 54028: () => { return simSystem.switch[1].value; },  
- 54066: () => { return simSystem.switch[2].value; },  
- 54104: () => { return simSystem.switch[3].value; }
+  60136: () => { return simSystem.getCharsLenWaitProcass(); },  
+ 60183: () => { return simSystem.getAndPopFirstCharsWaitProcass(); },  
+ 60238: ($0) => { return simSystem.isCharsWaitProcassHasInterruptChar($0) },  
+ 60298: () => { if (typeof simSystem !== "undefined") { try { return simSystem.ldr.getValue(); } catch(err) { console.log(err); } } return 0; },  
+ 60428: () => { if (typeof simSystem !== "undefined") { try { return simSystem.lm75.getValue() * 100; } catch(err) { console.log(err); } } return 0; },  
+ 60565: ($0, $1) => { const buf = $0; const len = $1; let data = [ ]; for (let i=0;i<len;i++) { data.push(HEAPU8[buf + i]); } for (let i=0;i<len-20;i++) { data.push(0); } if (typeof simSystem !== "undefined") { try { simSystem.display.setData(data); } catch(err) { console.log(err); } } else { console.log("Display data", data); } },  
+ 60878: () => { return simSystem.switch[0].value; },  
+ 60916: () => { return simSystem.switch[1].value; },  
+ 60954: () => { return simSystem.switch[2].value; },  
+ 60992: () => { return simSystem.switch[3].value; }
 };
 function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { console.log("Debug Buzzer: Freq", freq, "Duty", duty); return; } if (typeof simPlayNoteContext === "undefined") { simPlayNoteContext = new AudioContext(); } if (typeof simPlayNoteOscillator === "undefined") { simPlayNoteOscillator = null; } if (simPlayNoteOscillator) { simPlayNoteOscillator.stop(); simPlayNoteOscillator = null; } if (typeof simSystem !== "undefined") { simSystem.buzzer.setStatus(duty !== 0); } if (duty === 0) { return; } simPlayNoteOscillator = simPlayNoteContext.createOscillator(); let playNoteGain = simPlayNoteContext.createGain(); playNoteGain.gain.value = duty / 512; simPlayNoteOscillator.type = "square"; simPlayNoteOscillator.frequency.value = freq; simPlayNoteOscillator.connect(playNoteGain); playNoteGain.connect(simPlayNoteContext.destination); simPlayNoteOscillator.start(); }
 
@@ -1203,6 +1203,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       this.message = 'Program terminated with exit(' + status + ')';
       this.status = status;
     }
+  Module["ExitStatus"] = ExitStatus;
 
   function callRuntimeCallbacks(callbacks) {
       while (callbacks.length > 0) {
@@ -1210,6 +1211,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         callbacks.shift()(Module);
       }
     }
+  Module["callRuntimeCallbacks"] = callRuntimeCallbacks;
 
   function withStackSave(f) {
       var stack = stackSave();
@@ -1217,10 +1219,12 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       stackRestore(stack);
       return ret;
     }
+  Module["withStackSave"] = withStackSave;
   function demangle(func) {
       warnOnce('warning: build with -sDEMANGLE_SUPPORT to link in libcxxabi demangling');
       return func;
     }
+  Module["demangle"] = demangle;
 
   function demangleAll(text) {
       var regex =
@@ -1231,6 +1235,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
           return x === y ? x : (y + ' [' + x + ']');
         });
     }
+  Module["demangleAll"] = demangleAll;
 
   
     /**
@@ -1252,6 +1257,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       }
       return null;
     }
+  Module["getValue"] = getValue;
 
   function handleException(e) {
       // Certain exception types we do not treat as errors since they are used for
@@ -1264,6 +1270,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       }
       quit_(1, e);
     }
+  Module["handleException"] = handleException;
 
   function jsStackTrace() {
       var error = new Error();
@@ -1281,6 +1288,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       }
       return error.stack.toString();
     }
+  Module["jsStackTrace"] = jsStackTrace;
 
   
     /**
@@ -1302,12 +1310,14 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         default: abort('invalid type for setValue: ' + type);
       }
     }
+  Module["setValue"] = setValue;
 
   function stackTrace() {
       var js = jsStackTrace();
       if (Module['extraStackTrace']) js += '\n' + Module['extraStackTrace']();
       return demangleAll(js);
     }
+  Module["stackTrace"] = stackTrace;
 
   function warnOnce(text) {
       if (!warnOnce.shown) warnOnce.shown = {};
@@ -1317,15 +1327,19 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         err(text);
       }
     }
+  Module["warnOnce"] = warnOnce;
 
   function writeArrayToMemory(array, buffer) {
       assert(array.length >= 0, 'writeArrayToMemory array must have a length (should be an array or typed array)')
       HEAP8.set(array, buffer);
     }
+  Module["writeArrayToMemory"] = writeArrayToMemory;
 
   function __emscripten_throw_longjmp() { throw Infinity; }
+  Module["__emscripten_throw_longjmp"] = __emscripten_throw_longjmp;
 
   var readAsmConstArgsArray = [];
+  Module["readAsmConstArgsArray"] = readAsmConstArgsArray;
   function readAsmConstArgs(sigPtr, buf) {
       // Nobody should have mutated _readAsmConstArgsArray underneath us to be something else than an array.
       assert(Array.isArray(readAsmConstArgsArray));
@@ -1351,28 +1365,34 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       }
       return readAsmConstArgsArray;
     }
+  Module["readAsmConstArgs"] = readAsmConstArgs;
   function _emscripten_asm_const_int(code, sigPtr, argbuf) {
       var args = readAsmConstArgs(sigPtr, argbuf);
       if (!ASM_CONSTS.hasOwnProperty(code)) abort('No EM_ASM constant found at address ' + code);
       return ASM_CONSTS[code].apply(null, args);
     }
+  Module["_emscripten_asm_const_int"] = _emscripten_asm_const_int;
 
   function _emscripten_memcpy_big(dest, src, num) {
       HEAPU8.copyWithin(dest, src, src + num);
     }
+  Module["_emscripten_memcpy_big"] = _emscripten_memcpy_big;
 
   function getHeapMax() {
       return HEAPU8.length;
     }
+  Module["getHeapMax"] = getHeapMax;
   
   function abortOnCannotGrowMemory(requestedSize) {
       abort('Cannot enlarge memory arrays to size ' + requestedSize + ' bytes (OOM). Either (1) compile with -sINITIAL_MEMORY=X with X higher than the current value ' + HEAP8.length + ', (2) compile with -sALLOW_MEMORY_GROWTH which allows increasing the size at runtime, or (3) if you want malloc to return NULL (0) instead of this abort, compile with -sABORTING_MALLOC=0');
     }
+  Module["abortOnCannotGrowMemory"] = abortOnCannotGrowMemory;
   function _emscripten_resize_heap(requestedSize) {
       var oldSize = HEAPU8.length;
       requestedSize = requestedSize >>> 0;
       abortOnCannotGrowMemory(requestedSize);
     }
+  Module["_emscripten_resize_heap"] = _emscripten_resize_heap;
 
   function callUserCallback(func) {
       if (ABORT) {
@@ -1385,6 +1405,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         handleException(e);
       }
     }
+  Module["callUserCallback"] = callUserCallback;
   /** @param {number=} timeout */
   function safeSetTimeout(func, timeout) {
       
@@ -1393,6 +1414,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         callUserCallback(func);
       }, timeout);
     }
+  Module["safeSetTimeout"] = safeSetTimeout;
   function _emscripten_sleep(ms) {
       // emscripten_sleep() does not return a value, but we still need a |return|
       // here for stack switching support (ASYNCIFY=2). In that mode this function
@@ -1400,12 +1422,64 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       // wasm VM to pause the stack.
       return Asyncify.handleSleep((wakeUp) => safeSetTimeout(wakeUp, ms));
     }
+  Module["_emscripten_sleep"] = _emscripten_sleep;
+
+  var printCharBuffers = [null,[],[]];
+  Module["printCharBuffers"] = printCharBuffers;
+  function printChar(stream, curr) {
+      var buffer = printCharBuffers[stream];
+      assert(buffer);
+      if (curr === 0 || curr === 10) {
+        (stream === 1 ? out : err)(UTF8ArrayToString(buffer, 0));
+        buffer.length = 0;
+      } else {
+        buffer.push(curr);
+      }
+    }
+  Module["printChar"] = printChar;
+  function flush_NO_FILESYSTEM() {
+      // flush anything remaining in the buffers during shutdown
+      _fflush(0);
+      if (printCharBuffers[1].length) printChar(1, 10);
+      if (printCharBuffers[2].length) printChar(2, 10);
+    }
+  Module["flush_NO_FILESYSTEM"] = flush_NO_FILESYSTEM;
+  
+  var SYSCALLS = {varargs:undefined,get:function() {
+        assert(SYSCALLS.varargs != undefined);
+        SYSCALLS.varargs += 4;
+        var ret = HEAP32[(((SYSCALLS.varargs)-(4))>>2)];
+        return ret;
+      },getStr:function(ptr) {
+        var ret = UTF8ToString(ptr);
+        return ret;
+      }};
+  Module["SYSCALLS"] = SYSCALLS;
+  function _fd_write(fd, iov, iovcnt, pnum) {
+      // hack to support printf in SYSCALLS_REQUIRE_FILESYSTEM=0
+      var num = 0;
+      for (var i = 0; i < iovcnt; i++) {
+        var ptr = HEAPU32[((iov)>>2)];
+        var len = HEAPU32[(((iov)+(4))>>2)];
+        iov += 8;
+        for (var j = 0; j < len; j++) {
+          printChar(fd, HEAPU8[ptr+j]);
+        }
+        num += len;
+      }
+      HEAPU32[((pnum)>>2)] = num;
+      return 0;
+    }
+  Module["_fd_write"] = _fd_write;
 
   var tempRet0 = 0;
+  Module["tempRet0"] = tempRet0;
   function getTempRet0() {
       return tempRet0;
     }
+  Module["getTempRet0"] = getTempRet0;
   var _getTempRet0 = getTempRet0;
+  Module["_getTempRet0"] = _getTempRet0;
 
   function _mp_js_hook() {
           if (typeof window === 'undefined') {
@@ -1430,10 +1504,12 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
               }
           }
       }
+  Module["_mp_js_hook"] = _mp_js_hook;
 
   function _mp_js_ticks_ms() {
           return (new Date()).getTime() - MP_JS_EPOCH;
       }
+  Module["_mp_js_ticks_ms"] = _mp_js_ticks_ms;
 
   function _mp_js_write(ptr, len) {
           for (var i = 0; i < len; ++i) {
@@ -1450,21 +1526,15 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
               }
           }
       }
+  Module["_mp_js_write"] = _mp_js_write;
 
   function setTempRet0(val) {
       tempRet0 = val;
     }
+  Module["setTempRet0"] = setTempRet0;
   var _setTempRet0 = setTempRet0;
+  Module["_setTempRet0"] = _setTempRet0;
 
-  var SYSCALLS = {varargs:undefined,get:function() {
-        assert(SYSCALLS.varargs != undefined);
-        SYSCALLS.varargs += 4;
-        var ret = HEAP32[(((SYSCALLS.varargs)-(4))>>2)];
-        return ret;
-      },getStr:function(ptr) {
-        var ret = UTF8ToString(ptr);
-        return ret;
-      }};
   function _proc_exit(code) {
       EXITSTATUS = code;
       if (!keepRuntimeAlive()) {
@@ -1473,6 +1543,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       }
       quit_(code, new ExitStatus(code));
     }
+  Module["_proc_exit"] = _proc_exit;
   /** @param {boolean|number=} implicit */
   function exitJS(status, implicit) {
       EXITSTATUS = status;
@@ -1487,6 +1558,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
   
       _proc_exit(status);
     }
+  Module["exitJS"] = exitJS;
 
   function allocateUTF8OnStack(str) {
       var size = lengthBytesUTF8(str) + 1;
@@ -1494,8 +1566,10 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       stringToUTF8Array(str, HEAP8, ret, size);
       return ret;
     }
+  Module["allocateUTF8OnStack"] = allocateUTF8OnStack;
 
   var wasmTableMirror = [];
+  Module["wasmTableMirror"] = wasmTableMirror;
   function getWasmTableEntry(funcPtr) {
       var func = wasmTableMirror[funcPtr];
       if (!func) {
@@ -1505,6 +1579,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       assert(wasmTable.get(funcPtr) == func, "JavaScript-side Wasm function table mirror is out of date!");
       return func;
     }
+  Module["getWasmTableEntry"] = getWasmTableEntry;
 
   function uleb128Encode(n, target) {
       assert(n < 16384);
@@ -1514,6 +1589,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         target.push((n % 128) | 128, n >> 7);
       }
     }
+  Module["uleb128Encode"] = uleb128Encode;
   
   function sigToWasmTypes(sig) {
       var typeNames = {
@@ -1533,6 +1609,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       }
       return type;
     }
+  Module["sigToWasmTypes"] = sigToWasmTypes;
   function convertJsFunctionToWasm(func, sig) {
   
       // If the type reflection proposal is available, use the new
@@ -1601,6 +1678,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       var wrappedFunc = instance.exports['f'];
       return wrappedFunc;
     }
+  Module["convertJsFunctionToWasm"] = convertJsFunctionToWasm;
   
   function updateTableMap(offset, count) {
       if (functionsInTableMap) {
@@ -1613,10 +1691,13 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         }
       }
     }
+  Module["updateTableMap"] = updateTableMap;
   
   var functionsInTableMap = undefined;
+  Module["functionsInTableMap"] = functionsInTableMap;
   
   var freeTableIndexes = [];
+  Module["freeTableIndexes"] = freeTableIndexes;
   function getEmptyTableSlot() {
       // Reuse a free index if there is one, otherwise grow.
       if (freeTableIndexes.length) {
@@ -1633,6 +1714,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       }
       return wasmTable.length - 1;
     }
+  Module["getEmptyTableSlot"] = getEmptyTableSlot;
   
   function setWasmTableEntry(idx, func) {
       wasmTable.set(idx, func);
@@ -1641,6 +1723,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       // instead of just storing 'func' directly into wasmTableMirror
       wasmTableMirror[idx] = wasmTable.get(idx);
     }
+  Module["setWasmTableEntry"] = setWasmTableEntry;
   /** @param {string=} sig */
   function addFunction(func, sig) {
       assert(typeof func != 'undefined');
@@ -1676,15 +1759,19 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
   
       return ret;
     }
+  Module["addFunction"] = addFunction;
 
   function removeFunction(index) {
       functionsInTableMap.delete(getWasmTableEntry(index));
       freeTableIndexes.push(index);
     }
+  Module["removeFunction"] = removeFunction;
 
   var ALLOC_NORMAL = 0;
+  Module["ALLOC_NORMAL"] = ALLOC_NORMAL;
   
   var ALLOC_STACK = 1;
+  Module["ALLOC_STACK"] = ALLOC_STACK;
   function allocate(slab, allocator) {
       var ret;
       assert(typeof allocator == 'number', 'allocate no longer takes a type argument')
@@ -1702,6 +1789,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       HEAPU8.set(slab, ret);
       return ret;
     }
+  Module["allocate"] = allocate;
 
 
 
@@ -1713,6 +1801,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         str += String.fromCharCode(ch);
       }
     }
+  Module["AsciiToString"] = AsciiToString;
 
   /** @param {boolean=} dontAddNull */
   function writeAsciiToMemory(str, buffer, dontAddNull) {
@@ -1723,11 +1812,14 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       // Null-terminate the pointer to the HEAP.
       if (!dontAddNull) HEAP8[((buffer)>>0)] = 0;
     }
+  Module["writeAsciiToMemory"] = writeAsciiToMemory;
   function stringToAscii(str, outPtr) {
       return writeAsciiToMemory(str, outPtr, false);
     }
+  Module["stringToAscii"] = stringToAscii;
 
   var UTF16Decoder = typeof TextDecoder != 'undefined' ? new TextDecoder('utf-16le') : undefined;;
+  Module["UTF16Decoder"] = UTF16Decoder;
   function UTF16ToString(ptr, maxBytesToRead) {
       assert(ptr % 2 == 0, 'Pointer passed to UTF16ToString must be aligned to two bytes!');
       var endPtr = ptr;
@@ -1757,6 +1849,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         return str;
       }
     }
+  Module["UTF16ToString"] = UTF16ToString;
 
   function stringToUTF16(str, outPtr, maxBytesToWrite) {
       assert(outPtr % 2 == 0, 'Pointer passed to stringToUTF16 must be aligned to two bytes!');
@@ -1779,10 +1872,12 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       HEAP16[((outPtr)>>1)] = 0;
       return outPtr - startPtr;
     }
+  Module["stringToUTF16"] = stringToUTF16;
 
   function lengthBytesUTF16(str) {
       return str.length*2;
     }
+  Module["lengthBytesUTF16"] = lengthBytesUTF16;
 
   function UTF32ToString(ptr, maxBytesToRead) {
       assert(ptr % 4 == 0, 'Pointer passed to UTF32ToString must be aligned to four bytes!');
@@ -1806,6 +1901,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       }
       return str;
     }
+  Module["UTF32ToString"] = UTF32ToString;
 
   function stringToUTF32(str, outPtr, maxBytesToWrite) {
       assert(outPtr % 4 == 0, 'Pointer passed to stringToUTF32 must be aligned to four bytes!');
@@ -1833,6 +1929,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       HEAP32[((outPtr)>>2)] = 0;
       return outPtr - startPtr;
     }
+  Module["stringToUTF32"] = stringToUTF32;
 
   function lengthBytesUTF32(str) {
       var len = 0;
@@ -1846,6 +1943,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
   
       return len;
     }
+  Module["lengthBytesUTF32"] = lengthBytesUTF32;
 
   function allocateUTF8(str) {
       var size = lengthBytesUTF8(str) + 1;
@@ -1853,6 +1951,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       if (ret) stringToUTF8Array(str, HEAP8, ret, size);
       return ret;
     }
+  Module["allocateUTF8"] = allocateUTF8;
 
 
   /** @deprecated @param {boolean=} dontAddNull */
@@ -1870,6 +1969,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       stringToUTF8(string, buffer, Infinity);
       if (dontAddNull) HEAP8[end] = lastChar; // Restore the value under the null character.
     }
+  Module["writeStringToMemory"] = writeStringToMemory;
 
 
 
@@ -1881,6 +1981,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
     if (dontAddNull) u8array.length = numBytesWritten;
     return u8array;
   }
+  Module["intArrayFromString"] = intArrayFromString;
 
   function intArrayToString(array) {
     var ret = [];
@@ -1896,6 +1997,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
     }
     return ret.join('');
   }
+  Module["intArrayToString"] = intArrayToString;
 
 
   function getCFunc(ident) {
@@ -1903,12 +2005,15 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       assert(func, 'Cannot call unknown function ' + ident + ', make sure it is exported');
       return func;
     }
+  Module["getCFunc"] = getCFunc;
   
   function runtimeKeepalivePush() {
     }
+  Module["runtimeKeepalivePush"] = runtimeKeepalivePush;
   
   function runtimeKeepalivePop() {
     }
+  Module["runtimeKeepalivePop"] = runtimeKeepalivePop;
   
     /**
      * @param {string|null=} returnType
@@ -1993,6 +2098,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
       if (asyncMode) return Promise.resolve(ret);
       return ret;
     }
+  Module["ccall"] = ccall;
 
   
     /**
@@ -2005,6 +2111,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         return ccall(ident, returnType, argTypes, arguments, opts);
       }
     }
+  Module["cwrap"] = cwrap;
 
 
 
@@ -2016,6 +2123,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
         abort(e);
       }
     }
+  Module["runAndAbortIfError"] = runAndAbortIfError;
   var Asyncify = {State:{Normal:0,Unwinding:1,Rewinding:2,Disabled:3},state:0,StackSize:4096,currData:null,handleSleepReturnValue:0,exportCallStack:[],callStackNameToId:{},callStackIdToName:{},callStackId:0,asyncPromiseHandlers:null,sleepCallbacks:[],getCallStackId:function(funcName) {
         var id = Asyncify.callStackNameToId[funcName];
         if (id === undefined) {
@@ -2233,6 +2341,7 @@ function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { consol
           startAsync().then(wakeUp);
         });
       }};
+  Module["Asyncify"] = Asyncify;
 
 
 var ASSERTIONS = true;
@@ -2246,6 +2355,7 @@ var asmLibraryArg = {
   "emscripten_memcpy_big": _emscripten_memcpy_big,
   "emscripten_resize_heap": _emscripten_resize_heap,
   "emscripten_sleep": _emscripten_sleep,
+  "fd_write": _fd_write,
   "getTempRet0": _getTempRet0,
   "invoke_i": invoke_i,
   "invoke_ii": invoke_ii,
@@ -2384,6 +2494,9 @@ var dynCall_ddd = Module["dynCall_ddd"] = createExportWrapper("dynCall_ddd");
 var dynCall_viiiiii = Module["dynCall_viiiiii"] = createExportWrapper("dynCall_viiiiii");
 
 /** @type {function(...*):?} */
+var dynCall_jiji = Module["dynCall_jiji"] = createExportWrapper("dynCall_jiji");
+
+/** @type {function(...*):?} */
 var dynCall_iidiiii = Module["dynCall_iidiiii"] = createExportWrapper("dynCall_iidiiii");
 
 /** @type {function(...*):?} */
@@ -2398,8 +2511,8 @@ var _asyncify_start_rewind = Module["_asyncify_start_rewind"] = createExportWrap
 /** @type {function(...*):?} */
 var _asyncify_stop_rewind = Module["_asyncify_stop_rewind"] = createExportWrapper("asyncify_stop_rewind");
 
-var ___start_em_js = Module['___start_em_js'] = 54142;
-var ___stop_em_js = Module['___stop_em_js'] = 55023;
+var ___start_em_js = Module['___start_em_js'] = 61030;
+var ___stop_em_js = Module['___stop_em_js'] = 61911;
 function invoke_ii(index,a1) {
   var sp = stackSave();
   try {
@@ -2852,7 +2965,6 @@ var missingLibrarySymbols = [
   'getCanvasElementSize',
   'getEnvStrings',
   'checkWasiClock',
-  'flush_NO_FILESYSTEM',
   'setImmediateWrapped',
   'clearImmediateWrapped',
   'polyfillSetImmediate',
@@ -3000,7 +3112,7 @@ function checkUnflushedContent() {
     has = true;
   }
   try { // it doesn't matter if it fails
-    _fflush(0);
+    flush_NO_FILESYSTEM();
   } catch(e) {}
   out = oldOut;
   err = oldErr;

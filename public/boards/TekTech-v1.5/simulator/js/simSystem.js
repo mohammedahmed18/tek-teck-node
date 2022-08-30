@@ -1,57 +1,108 @@
 const drawLine = ([, , x1, y1, x2, y2]) => {
-  return `<line x1=${x1} y1=${y1} x2=${x2} y2=${y2} style="stroke: crimson;stroke-width:1" /> />`;
+  return `<line x1=${x1 * 2} y1=${y1 * 2} x2=${x2 * 2} y2=${
+    y2 * 2
+  } style="stroke: crimson;stroke-width:1" /> />`;
 };
 
 const drawRectangle = ([, fill, x, y, , , , , width, height]) => {
-  if (fill) {
-    return `<rect x=${x} y=${y} width=${width} height=${height} style="stroke: crimson;stroke-width:1" fill="crimson" />`;
+  if (fill == '1') {
+    return `<rect x=${x * 2} y=${y * 2} width=${width * 2} height=${
+      height * 2
+    } style="stroke: crimson;stroke-width:1" fill="crimson" />`;
   } else {
-    return `<rect x=${x} y=${y} width=${width} height=${height} style="stroke: crimson;stroke-width:1" fill="transparent" />`;
+    return `<rect x=${x} y=${y} width=${width * 2} height=${
+      height * 2
+    } style="stroke: crimson;stroke-width:1" fill="transparent" />`;
   }
 };
 
 const drawCircle = ([, fill, x, y, , , , , r]) => {
-  if (fill) {
-    return `<circle cx=${x} cy=${y} r=${r} stroke="crimson" stroke-width="1" fill="crimson" />`;
+  if (fill == '1') {
+    return `<circle cx=${x * 2} cy=${y * 2} r=${
+      r * 2
+    } stroke="crimson" stroke-width="1" fill="crimson" />`;
   } else {
-    return `<circle cx=${x} cy=${y} r=${r} stroke="crimson" stroke-width="1" fill="transparent" />`;
+    return `<circle cx=${x * 2} cy=${y * 2} r=${
+      r * 2
+    } stroke="crimson" stroke-width="1" fill="transparent" />`;
   }
 };
 
 const drawTriangle = ([, fill, x1, y1, x2, y2, x3, y3]) => {
-  if (fill) {
-    return `<polygon points="${x1},${y1} ${x2},${y2} ${x3},${y3}" style="fill:crimson;stroke:crimson;stroke-width:1" />`;
+  if (fill == '1') {
+    return `<polygon points="${x1 * 2},${y1 * 2} ${x2 * 2},${y2 * 2} ${x3 * 2},${
+      y3 * 2
+    }" style="fill:crimson;stroke:crimson;stroke-width:1" />`;
   } else {
-    return `<polygon points="50,10 100,50 100,0" style="fill:transparent;stroke:crimson;stroke-width:1" />`;
+    return `<polygon points="${x1 * 2},${y1 * 2} ${x2 * 2},${y2 * 2} ${x3 * 2},${
+      y3 * 2
+    }" style="fill:transparent;stroke:crimson;stroke-width:1" />`;
   }
 };
 
-const drawAnimatedText = ([, , x1, y1, ...rest]) => {
-  return `<Text x="${x1}" y="${y1}">
-        hello world
+const drawFill = ([, fill, , , , , , , ...rest]) => {
+  return `<rect
+            style="fill:crimson;stroke-width:1.65493"
+            id="rect541"
+            width="256"
+            height="128"
+            x="0"
+            y="0"
+            inkscape:transform-center-x="-0.92508296"
+            inkscape:transform-center-y="-4.3782609" />`;
+};
+
+const drawClear = ([, fill, , , , , , , ...rest]) => {
+  return `<rect
+   style="fill:#ffffff;stroke-width:3.30985"
+   id="rect541"
+   width="256"
+   height="128"
+   x="0"
+   y="0"
+   inkscape:transform-center-x="-1.8501572"
+   inkscape:transform-center-y="-8.756523" />`;
+};
+
+const toString = (arr) => {
+  let str = '';
+  for (let ch of arr) {
+    if (ch === 0) {
+      break;
+    }
+    str += String.fromCharCode(ch);
+  }
+  return str;
+};
+
+const drawAnimatedText = ([, , , y1,,,,, ...rest]) => {
+  console.log({rest});
+  const str = toString(rest);
+  return `<Text x="0" y="${y1 * 2}" fill="crimson">
+        ${str}
         <animate
           attributeType="XML"
           attributeName="x"
-          values="0;128;"
+          values="0;256;"
           dur="2s"
           repeatCount="indefinite"
         />
       </Text>`;
 };
+
 const drawText = ([, , x1, y1, , , , , ...rest]) => {
-  return `<Text x="${x1}" y="${y1}">
-        hello world
+  const str = toString(rest);
+  return `<Text x="${x1 * 2}" y="${y1 * 2}" fill="crimson">
+        ${str}
       </Text>`;
 };
 
 simSystem = {
   display: {
     setData: (data) => {
-      console.alert(data);
-        // TODO: text, sin, cos
+      //console.log('in setData', data, data.length);
+      // TODO: text, sin, cos
       const svg = document.querySelector('#mysvg');
-      // for test
-      //svg.innerHTML += drawCircle([, 1, 50, 50, ,,,, 20]);
       switch (data[0]) {
         case 0:
           svg.innerHTML += drawLine(data);
@@ -66,13 +117,16 @@ simSystem = {
           svg.innerHTML += drawTriangle(data);
           break;
         case 4:
-          svg.innerHTML += drawAnimatedText(data);
-          break;
-        case 5:
           svg.innerHTML += drawText(data);
           break;
+        case 5:
+          svg.innerHTML += drawAnimatedText(data);
+          break;
         case 6:
-          svg.innerHTML = '';
+          svg.innerHTML = drawClear(data);
+          break;
+        case 7:
+          svg.innerHTML += drawFill(data);
           break;
         default:
           svg.innerHTML = '';
@@ -91,7 +145,7 @@ simSystem = {
     },
     {
       value: 1,
-    }
+    },
   ],
   buzzer: {
     setStatus: (status) => {

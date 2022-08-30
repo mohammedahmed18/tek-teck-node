@@ -123,11 +123,11 @@ if (isElectron) {
                 { type: 'separator' },
                 {
                     label: 'Join Us on Facebook',
-                    click: () => shell.openExternal('https://www.facebook.com/microblockide')
+                    click: () => shell.openExternal('https://www.facebook.com/TekTecher/')
                 },
                 {
                     label: 'Report Issue',
-                    click: () => shell.openExternal('https://github.com/microBlock-IDE/microBlock-IDE/issues')
+                    click: () => shell.openExternal('https://github.com/tektecher/TekTech-IDE/issues')
                 },
                 { type: 'separator' },
                 {
@@ -136,7 +136,7 @@ if (isElectron) {
                 },
                 {
                     label: 'Download Last version',
-                    click: () => shell.openExternal('https://github.com/microBlock-IDE/microBlock-IDE-offline/releases')
+                    click: () => shell.openExternal('https://github.com/tektecher/TekTech-IDE-offline/releases')
                 },
                 { type: 'separator' },
                 {
@@ -145,7 +145,7 @@ if (isElectron) {
                         dialog.showMessageBox({
                             type: "info",
                             title: "About",
-                            message: `microBlock IDE offline version ${pjson.version}`
+                            message: `TekTech IDE offline version ${pjson.version}`
                         });
                     }
                 },

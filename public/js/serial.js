@@ -790,8 +790,8 @@ $('#upload-program').click(async function () {
     .contentWindow.document.querySelector('#mysvg').innerHTML = `<rect
             style="fill:#ffffff;stroke-width:1.65493"
             id="rect541"
-            width="128"
-            height="64"
+            width="256"
+            height="128"
             x="0"
             y="0"
             inkscape:transform-center-x="-0.92508296"

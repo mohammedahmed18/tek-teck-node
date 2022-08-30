@@ -1,58 +1,3 @@
-const drawLine = ([x1, y1, x2, y2]) => {
-  return `<line x1=${x1} y1=${y1} x2=${x2} y2=${y2} style="stroke: crimson;stroke-width:1" /> />`;
-};
-
-const drawRectangle = ([fill, x, y, width, height]) => {
-  if (fill == '1') {
-    return `<rect x=${x} y=${y} width=${width} height=${height} style="stroke: crimson;stroke-width:1" fill="crimson" />`;
-  } else {
-    return `<rect x=${x} y=${y} width=${width} height=${height} style="stroke: crimson;stroke-width:1" fill="transparent" />`;
-  }
-};
-
-const drawCircle = ([fill, x, y, r]) => {
-  if (fill == '1') {
-    return `<circle cx=${x} cy=${y} r=${r} stroke="crimson" stroke-width="1" fill="crimson" />`;
-  } else {
-    return `<circle cx=${x} cy=${y} r=${r} stroke="crimson" stroke-width="1" fill="transparent" />`;
-  }
-};
-
-const drawTriangle = ([fill, x1, y1, x2, y2, x3, y3]) => {
-  if (fill == '1') {
-    return `<polygon points="${x1},${y1} ${x2},${y2} ${x3},${y3}" style="fill:crimson;stroke:crimson;stroke-width:1" />`;
-  } else {
-    return `<polygon points="${x1},${y1} ${x2},${y2} ${x3},${y3}" style="fill:transparent;stroke:crimson;stroke-width:1" />`;
-  }
-};
-
-const drawAnimatedText = ([text, x, y]) => {
-  text = text.slice(1, -2);
-  return `<Text x="${x}" y="${y}" fill="crimson">
-        ${text}
-        <animate
-          attributeType="XML"
-          attributeName="x"
-          values="0;128;"
-          dur="2s"
-          repeatCount="indefinite"
-        />
-      </Text>`;
-};
-const drawText = ([text, x, y]) => {
-  text = text.slice(1, -2);
-  return `<Text x="${x}" y="${y}" fill="crimson">
-        ${text}
-      </Text>`;
-};
-
-let svg;
-setTimeout(() => {
-  svg = document
-    .querySelector('#simulator iframe')
-    .contentWindow.document.querySelector('#mysvg');
-}, 2000);
-
 Blockly.Python['display_draw_text'] = function (block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
 
@@ -61,7 +6,7 @@ Blockly.Python['display_draw_text'] = function (block) {
   var value_y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
 
   var code = `display.text(str(${value_text}), ${value_x}, ${value_y}, 1)\n`;
-  svg.innerHTML += drawText([value_text, value_x, value_y]);
+
   return code;
 };
 Blockly.Python['display_scroll_text'] = function (block) {
@@ -69,9 +14,9 @@ Blockly.Python['display_scroll_text'] = function (block) {
 
   var value_text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
   var value_y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
-  
+
   var code = `display.scroll(str(${value_text}), ${value_y})\n`;
-  svg.innerHTML += drawAnimatedText([value_text, 0, value_y]);
+
   return code;
 };
 
@@ -84,7 +29,7 @@ Blockly.Python['display_draw_line'] = function (block) {
   var value_y2 = Blockly.Python.valueToCode(block, 'y2', Blockly.Python.ORDER_ATOMIC);
 
   var code = `display.line(${value_x1}, ${value_y1}, ${value_x2}, ${value_y2}, 1)\n`;
-  svg.innerHTML += drawLine([value_x1, value_y1, value_x2, value_y2]);
+
   return code;
 };
 
@@ -105,10 +50,8 @@ Blockly.Python['display_draw_rect'] = function (block) {
   );
   var dropdown_fill = block.getFieldValue('fill');
 
-  var code = `display.${
-    +dropdown_fill ? 'fill_rect' : 'rect'
-  }(${value_x}, ${value_y}, ${value_width}, ${value_height}, 1)\n`;
-  svg.innerHTML += drawRectangle([dropdown_fill, value_x, value_y, value_width, value_height]);
+  var code = `display.rect(${value_x}, ${value_y}, ${value_width}, ${value_height}, ${dropdown_fill})\n`;
+
   return code;
 };
 
@@ -120,10 +63,8 @@ Blockly.Python['display_draw_circle'] = function (block) {
   var value_r = Blockly.Python.valueToCode(block, 'r', Blockly.Python.ORDER_ATOMIC);
   var dropdown_fill = block.getFieldValue('fill');
 
-  var code = `display.${
-    +dropdown_fill ? 'fill_circle' : 'circle'
-  }(${value_x}, ${value_y}, ${value_r}, 1)\n`;
-  svg.innerHTML += drawCircle([dropdown_fill, value_x, value_y, value_r]);
+  var code = `display.circle(${value_x}, ${value_y}, ${value_r}, ${dropdown_fill})\n`;
+
 
   return code;
 };
@@ -140,18 +81,8 @@ Blockly.Python['display_draw_triangle'] = function (block) {
 
   var dropdown_fill = block.getFieldValue('fill');
 
-  var code = `display.${
-    +dropdown_fill ? 'fill_triangle' : 'triangle'
-  }(${value_x1}, ${value_y1}, ${value_x2}, ${value_y2}, ${value_x3}, ${value_y3}, 1)\n`;
-  svg.innerHTML += drawTriangle([
-    dropdown_fill,
-    value_x1,
-    value_y1,
-    value_x2,
-    value_y2,
-    value_x3,
-    value_y3,
-  ]);
+  var code = `display.triangle(${value_x1}, ${value_y1}, ${value_x2}, ${value_y2}, ${value_x3}, ${value_y3}, ${dropdown_fill})\n`;
+
   return code;
 };
 
@@ -171,31 +102,15 @@ Blockly.Python['display_fill'] = function (block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
 
   var code = 'display.fill(1)\n';
-  svg.innerHTML = `<rect
-            style="fill:crimson;stroke-width:1.65493"
-            id="rect541"
-            width="241.88977"
-            height="120.94489"
-            x="0"
-            y="0"
-            inkscape:transform-center-x="-0.92508296"
-            inkscape:transform-center-y="-4.3782609" />`;
+
   return code;
 };
 
 Blockly.Python['display_clear'] = function (block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
 
-  var code = 'display.fill(0)\n';
-  svg.innerHTML = `<rect
-            style="fill:#ffffff;stroke-width:1.65493"
-            id="rect541"
-            width="241.88977"
-            height="120.94489"
-            x="0"
-            y="0"
-            inkscape:transform-center-x="-0.92508296"
-            inkscape:transform-center-y="-4.3782609" />`;
+  var code = 'display.clear(0)\n';
+
   return code;
 };
 
