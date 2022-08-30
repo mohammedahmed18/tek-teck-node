@@ -6,13 +6,9 @@ const drawLine = ([, , x1, y1, x2, y2]) => {
 
 const drawRectangle = ([, fill, x, y, , , , , width, height]) => {
   if (fill == '1') {
-    return `<rect x=${x * 2} y=${y * 2} width=${width * 2} height=${
-      height * 2
-    } style="stroke: crimson;stroke-width:1" fill="crimson" />`;
+    return `<rect x=${x*2} y=${y*2} width=${width*2} height=${height*2} style="stroke: crimson;stroke-width:1" fill="crimson" />`;
   } else {
-    return `<rect x=${x} y=${y} width=${width * 2} height=${
-      height * 2
-    } style="stroke: crimson;stroke-width:1" fill="transparent" />`;
+    return `<rect x=${x*2} y=${y*2} width=${width*2} height=${height*2} style="stroke: crimson;stroke-width:1" fill="transparent" />`;
   }
 };
 
@@ -100,7 +96,7 @@ const drawText = ([, , x1, y1, , , , , ...rest]) => {
 simSystem = {
   display: {
     setData: (data) => {
-      //console.log('in setData', data, data.length);
+      console.log('in setData', data, data.length);
       // TODO: text, sin, cos
       const svg = document.querySelector('#mysvg');
       switch (data[0]) {
