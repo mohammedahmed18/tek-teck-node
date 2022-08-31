@@ -1,10 +1,28 @@
 const drawLine = ([, , x1, y1, x2, y2]) => {
+  if ((x1>'128')||(y1>64)) {
+    alert('invalid input for coordinates\n max X = 128 , max Y = 64');
+     return;
+  }
+  else if ((x2>'128')||(y2>64))
+  {
+    alert('invalid input for coordinates\n max X = 128 , max Y = 64');
+     return;    
+  }
   return `<line x1=${x1 * 2} y1=${y1 * 2} x2=${x2 * 2} y2=${
     y2 * 2
   } style="stroke: crimson;stroke-width:1" /> />`;
 };
 
 const drawRectangle = ([, fill, x, y, , , , , width, height]) => {
+  if ((x>'128')||(y>64)) {
+    alert('invalid input for coordinates\n max X = 128 , max Y = 64');
+     return;
+  }
+  else if ((width>'128')||(height>64))
+  {
+    alert('invalid input for coordinates\n width X = 128 , hight Y = 64');
+     return;    
+  }
   if (fill == '1') {
     return `<rect x=${x*2} y=${y*2} width=${width*2} height=${height*2} style="stroke: crimson;stroke-width:1" fill="crimson" />`;
   } else {
@@ -13,6 +31,15 @@ const drawRectangle = ([, fill, x, y, , , , , width, height]) => {
 };
 
 const drawCircle = ([, fill, x, y, , , , , r]) => {
+  if ((x>'128')||(y>64)) {
+    alert('invalid input for coordinates\n max X = 128 , max Y = 64');
+     return;
+  }
+  else if ((r>'64'))
+  {
+    alert('invalid input for radius\n max radius = 64');
+     return;    
+  }
   if (fill == '1') {
     return `<circle cx=${x * 2} cy=${y * 2} r=${
       r * 2
@@ -25,6 +52,20 @@ const drawCircle = ([, fill, x, y, , , , , r]) => {
 };
 
 const drawTriangle = ([, fill, x1, y1, x2, y2, x3, y3]) => {
+  if ((x1>'128')||(y1>64)) {
+    alert('invalid input for coordinates\n max X = 128 , max Y = 64');
+     return;
+  }
+  else if ((x2>'128')||(y2>64))
+  {
+    alert('invalid input for coordinates\n max X = 128 , max Y = 64');
+     return;    
+  }  
+  else if ((x3>'128')||(y3>64))
+  {
+    alert('invalid input for coordinates\n max X = 128 , max Y = 64');
+     return;    
+  }  
   if (fill == '1') {
     return `<polygon points="${x1 * 2},${y1 * 2} ${x2 * 2},${y2 * 2} ${x3 * 2},${
       y3 * 2
@@ -72,7 +113,11 @@ const toString = (arr) => {
 };
 
 const drawAnimatedText = ([, , , y1,,,,, ...rest]) => {
-  console.log({rest});
+  if ((y1>64))
+  {
+    alert('invalid input for coordinates\n max Y = 64');
+     return;    
+  }  
   const str = toString(rest);
   return `<Text x="0" y="${y1 * 2}" fill="crimson">
         ${str}
@@ -87,6 +132,10 @@ const drawAnimatedText = ([, , , y1,,,,, ...rest]) => {
 };
 
 const drawText = ([, , x1, y1, , , , , ...rest]) => {
+  if ((x1>'128')||(y1>64)) {
+    alert('invalid input for coordinates\n max X = 128 , max Y = 64');
+     return;
+  }
   const str = toString(rest);
   return `<Text x="${x1 * 2}" y="${y1 * 2}" fill="crimson">
         ${str}
@@ -219,19 +268,25 @@ simSystem = {
     digitalWrite: (pin, value) => {
       // console.log("PIN Write", pin, value);
       if (pin === 25) {
-        // RED LED
-        svgDocument.querySelector('#path3949').style.fill =
+        // RED LED #path3949
+        svgDocument.querySelector('#path10329').style.fill =
           value == 1 ? '#FF0000' : '#FFFFFF';
+        svgDocument.querySelector('#path10333').style.fill =
+        value == 1 ? '#FF0000' : '#FFFFFF';
       }
       if (pin === 26) {
         // GREEN LED
-        svgDocument.querySelector('#path3949').style.fill =
+        svgDocument.querySelector('#path10329').style.fill =
           value == 1 ? '#7CFC00' : '#FFFFFF';
+        svgDocument.querySelector('#path10333').style.fill =
+        value == 1 ? '#7CFC00' : '#FFFFFF';
       }
       if (pin === 27) {
         // BLUE LED
-        svgDocument.querySelector('#path3949').style.fill =
+        svgDocument.querySelector('#path10329').style.fill =
           value == 1 ? '#0000FF' : '#FFFFFF';
+        svgDocument.querySelector('#path10333').style.fill =
+        value == 1 ? '#0000FF' : '#FFFFFF';
       }
     },
     touchRead: (pin) => 0,
