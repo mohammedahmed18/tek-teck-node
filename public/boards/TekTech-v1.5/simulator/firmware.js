@@ -1180,16 +1180,21 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  60136: () => { return simSystem.getCharsLenWaitProcass(); },  
- 60183: () => { return simSystem.getAndPopFirstCharsWaitProcass(); },  
- 60238: ($0) => { return simSystem.isCharsWaitProcassHasInterruptChar($0) },  
- 60298: () => { if (typeof simSystem !== "undefined") { try { return simSystem.ldr.getValue(); } catch(err) { console.log(err); } } return 0; },  
- 60428: () => { if (typeof simSystem !== "undefined") { try { return simSystem.lm75.getValue() * 100; } catch(err) { console.log(err); } } return 0; },  
- 60565: ($0, $1) => { const buf = $0; const len = $1; let data = [ ]; for (let i=0;i<len;i++) { data.push(HEAPU8[buf + i]); } for (let i=0;i<len-20;i++) { data.push(0); } if (typeof simSystem !== "undefined") { try { simSystem.display.setData(data); } catch(err) { console.log(err); } } else { console.log("Display data", data); } },  
- 60878: () => { return simSystem.switch[0].value; },  
- 60916: () => { return simSystem.switch[1].value; },  
- 60954: () => { return simSystem.switch[2].value; },  
- 60992: () => { return simSystem.switch[3].value; }
+  61576: () => { return simSystem.getCharsLenWaitProcass(); },  
+ 61623: () => { return simSystem.getAndPopFirstCharsWaitProcass(); },  
+ 61678: ($0) => { return simSystem.isCharsWaitProcassHasInterruptChar($0) },  
+ 61738: () => { if (typeof simSystem !== "undefined") { try { return simSystem.ldr.getValue(); } catch(err) { console.log(err); } } return 0; },  
+ 61868: () => { if (typeof simSystem !== "undefined") { try { return simSystem.lm75.getValue() * 100; } catch(err) { console.log(err); } } return 0; },  
+ 62005: ($0) => { return simSystem.pin.analogRead($0); },  
+ 62046: ($0) => { return simSystem.pin.digitalRead($0); },  
+ 62088: ($0, $1) => { simSystem.pin.digitalWrite($0, $1); },  
+ 62128: ($0) => { return simSystem.pin.touchRead($0); },  
+ 62168: ($0, $1) => { simSystem.pin.analogWrite($0, $1); },  
+ 62207: ($0, $1) => { const buf = $0; const len = $1; let data = [ ]; for (let i=0;i<len;i++) { data.push(HEAPU8[buf + i]); } for (let i=0;i<len-20;i++) { data.push(0); } if (typeof simSystem !== "undefined") { try { simSystem.display.setData(data); } catch(err) { console.log(err); } } else { console.log("Display data", data); } },  
+ 62520: () => { return simSystem.switch[0].value; },  
+ 62558: () => { return simSystem.switch[1].value; },  
+ 62596: () => { return simSystem.switch[2].value; },  
+ 62634: () => { return simSystem.switch[3].value; }
 };
 function js_audio(freq,duty) { if (typeof AudioContext === "undefined") { console.log("Debug Buzzer: Freq", freq, "Duty", duty); return; } if (typeof simPlayNoteContext === "undefined") { simPlayNoteContext = new AudioContext(); } if (typeof simPlayNoteOscillator === "undefined") { simPlayNoteOscillator = null; } if (simPlayNoteOscillator) { simPlayNoteOscillator.stop(); simPlayNoteOscillator = null; } if (typeof simSystem !== "undefined") { simSystem.buzzer.setStatus(duty !== 0); } if (duty === 0) { return; } simPlayNoteOscillator = simPlayNoteContext.createOscillator(); let playNoteGain = simPlayNoteContext.createGain(); playNoteGain.gain.value = duty / 512; simPlayNoteOscillator.type = "square"; simPlayNoteOscillator.frequency.value = freq; simPlayNoteOscillator.connect(playNoteGain); playNoteGain.connect(simPlayNoteContext.destination); simPlayNoteOscillator.start(); }
 
@@ -2511,8 +2516,8 @@ var _asyncify_start_rewind = Module["_asyncify_start_rewind"] = createExportWrap
 /** @type {function(...*):?} */
 var _asyncify_stop_rewind = Module["_asyncify_stop_rewind"] = createExportWrapper("asyncify_stop_rewind");
 
-var ___start_em_js = Module['___start_em_js'] = 61030;
-var ___stop_em_js = Module['___stop_em_js'] = 61911;
+var ___start_em_js = Module['___start_em_js'] = 62672;
+var ___stop_em_js = Module['___stop_em_js'] = 63553;
 function invoke_ii(index,a1) {
   var sp = stackSave();
   try {
