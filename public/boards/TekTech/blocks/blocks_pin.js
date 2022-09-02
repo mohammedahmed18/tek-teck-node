@@ -216,7 +216,7 @@ Blockly.defineBlocksWithJsonArray([{
     },
     {
         "type": "pin_Rgb_write",
-        "message0": " Lamp: %1 Turn: %2",
+        "message0": " Lights: %1 Turn: %2",
         "args0": [{
                 "type": "field_dropdown",
                 "name": "lamp",
@@ -233,7 +233,22 @@ Blockly.defineBlocksWithJsonArray([{
                         "BLUE",
                         "27"
                     ],
-
+                    [
+                        "PURPLE",
+                        "13"
+                    ],
+                    [
+                        "CYAN",
+                        "14"
+                    ],
+                    [
+                        "YELLOW",
+                        "15"
+                    ],
+                    [
+                        "WHITE",
+                        "2"
+                    ],
                 ]
             },
             {
@@ -248,8 +263,6 @@ Blockly.defineBlocksWithJsonArray([{
                         "OFF",
                         "0"
                     ],
-
-
                 ]
             }
         ],
@@ -259,4 +272,14 @@ Blockly.defineBlocksWithJsonArray([{
         "tooltip": "",
         "helpUrl": ""
     },
+    {
+        "type": "lights_clear",
+        "message0": "Lights Clear",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#0925c7",
+        "tooltip": "",
+        "helpUrl": ""
+      },
 ]);

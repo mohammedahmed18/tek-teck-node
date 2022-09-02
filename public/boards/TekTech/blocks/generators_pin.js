@@ -65,3 +65,10 @@ Blockly.Python['pin_Rgb_write'] = function(block) {
     var code = `Pin(${dropdown_lamp}, Pin.OUT).value(${dropdown_turn})\n`;
     return code;
 };
+
+Blockly.Python['lights_clear'] = function (block) {
+    Blockly.Python.definitions_['from_machine_import_Pin'] = 'from machine import Pin';
+  
+    var code = 'Pin(19, Pin.OUT).value(1)\n';
+    return code;
+  };

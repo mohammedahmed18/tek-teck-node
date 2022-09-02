@@ -20,7 +20,7 @@ const drawRectangle = ([, fill, x, y, , , , , width, height]) => {
   }
   else if ((width>'128')||(height>64))
   {
-    alert('invalid input for coordinates\n width X = 128 , hight Y = 64');
+    alert('invalid input for coordinates\n max width = 128 , max hight = 64');
      return;    
   }
   if (fill == '1') {
@@ -273,6 +273,7 @@ simSystem = {
           value == 1 ? '#FF0000' : '#FFFFFF';
         svgDocument.querySelector('#path10333').style.fill =
         value == 1 ? '#FF0000' : '#FFFFFF';
+        // alert('You choosed RED color \n and it is essential');
       }
       if (pin === 26) {
         // GREEN LED
@@ -280,6 +281,7 @@ simSystem = {
           value == 1 ? '#7CFC00' : '#FFFFFF';
         svgDocument.querySelector('#path10333').style.fill =
         value == 1 ? '#7CFC00' : '#FFFFFF';
+        // alert('You choosed GREEN color \n and it is essential');
       }
       if (pin === 27) {
         // BLUE LED
@@ -287,6 +289,47 @@ simSystem = {
           value == 1 ? '#0000FF' : '#FFFFFF';
         svgDocument.querySelector('#path10333').style.fill =
         value == 1 ? '#0000FF' : '#FFFFFF';
+        // alert('You choosed BLUE color \n and it is essential');
+      }
+      if (pin === 13) {
+        // purple LED
+        svgDocument.querySelector('#path10329').style.fill =
+        value == 1 ? '#800080' : '#FFFFFF';
+          svgDocument.querySelector('#path10333').style.fill =
+          value == 1 ? '#800080' : '#FFFFFF';
+          // alert('You choosed PURPLE color \n and it is Mixed color between RED and BLUE');
+      }
+      if (pin === 14) {
+        // cyan LED
+        svgDocument.querySelector('#path10329').style.fill =
+        value == 1 ? '#00FFFF' : '#FFFFFF';
+          svgDocument.querySelector('#path10333').style.fill =
+          value == 1 ? '#00FFFF' : '#FFFFFF';
+          // alert('You choosed CYAN color \n and it is Mixed color between GREEN and BLUE');
+      }
+      if (pin === 15) {
+        // yellow LED
+        svgDocument.querySelector('#path10329').style.fill =
+        value == 1 ? '#FFFF00' : '#FFFFFF';
+          svgDocument.querySelector('#path10333').style.fill =
+          value == 1 ? '#FFFF00' : '#FFFFFF';
+          // alert('You choosed YELLOW color \n and it is Mixed color between RED and GREEN');
+      }
+      if (pin === 19) {
+        // white LED
+        svgDocument.querySelector('#path10329').style.fill =
+        value == 1 ? '#FFFFFF' : '#FFFFFF';
+          svgDocument.querySelector('#path10333').style.fill =
+          value == 1 ? '#FFFFFF' : '#FFFFFF';
+          // alert('You choosed PURPLE color \n and it is Mixed color between RED, GREEN and BLUE');
+      }
+      if (pin === 2) {
+        // white LED
+        svgDocument.querySelector('#path10329').style.fill =
+        value == 1 ? '#FFFFFF' : '#FFFFFF';
+          svgDocument.querySelector('#path10333').style.fill =
+          value == 1 ? '#FFFFFF' : '#FFFFFF';
+          // alert('You choosed PURPLE color \n and it is Mixed color between RED, GREEN and BLUE');
       }
     },
     touchRead: (pin) => 0,

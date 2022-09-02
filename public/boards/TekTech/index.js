@@ -292,6 +292,7 @@ addBoard({
                                   </block>
                               `,
             },
+            "lights_clear",
             {
               xml: `
                                 <block type="pin_digital_write">
