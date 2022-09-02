@@ -785,18 +785,6 @@ $('#upload-program').click(async function () {
   // alert('testing');
   statusLog('Start Upload');
   t0 = new Date().getTime();
-  document
-    .querySelector('#simulator iframe')
-    .contentWindow.document.querySelector('#mysvg').innerHTML = `<rect
-            style="fill:#ffffff;stroke-width:1.65493"
-            id="rect541"
-            width="256"
-            height="128"
-            x="0"
-            y="0"
-            inkscape:transform-center-x="-0.92508296"
-            inkscape:transform-center-y="-4.3782609" />`;
-
   // setTimeout(() => $("#upload-program").addClass("loading"), 1);
   $('#upload-program').addClass('loading');
 
@@ -830,8 +818,20 @@ $('#upload-program').click(async function () {
     statusLog(`Upload fail because ${e}`);
     console.warn(e);
   }
-
   $('#upload-program').removeClass('loading');
+  document
+    .querySelector('#simulator iframe')
+    .contentWindow.document.querySelector('#mysvg').innerHTML = `<rect
+            style="fill:#ffffff;stroke-width:1.65493"
+            id="rect541"
+            width="256"
+            height="128"
+            x="0"
+            y="0"
+            inkscape:transform-center-x="-0.92508296"
+            inkscape:transform-center-y="-4.3782609" />`;
+
+  
 });
 
 async function writeSerial(text) {
